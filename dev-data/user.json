@@ -1,0 +1,1882 @@
+[
+  {
+    "_id": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "user_type": 1,
+    "name": "Admin",
+    "code": "",
+    "reference_code": "ADMIN",
+    "address": "",
+    "description": "",
+    "dial_code": "+91",
+    "country_code": "IN",
+    "mobile_number": "9988776644",
+    "email": "admin1@gmail.com",
+    "password": "$2a$10$AT18jEwr3alBdDuN.2SuVOXI5t7hS3rSt3W2gHbdYzIAhlrVdZM3u",
+    "access_token": "",
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1653555216228"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "62a194bda564fd95836ee8cd"
+    },
+    "user_type": 5,
+    "name": "Ekasilam Inventory Vendor",
+    "code": "VDR001",
+    "reference_code": "VDR001",
+    "address": "Near Bus Stand",
+    "description": "Vendor Description",
+    "dial_code": "+91",
+    "country_code": "IN",
+    "mobile_number": "9988776655",
+    "email": "vendor1@gmail.com",
+    "password": "$2a$10$AT18jEwr3alBdDuN.2SuVOXI5t7hS3rSt3W2gHbdYzIAhlrVdZM3u",
+    "access_token": "",
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1654756541389"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "62bd344e8959dc53c27c336b"
+    },
+    "user_type": 2,
+    "name": "officeKK",
+    "code": "OFF!",
+    "reference_code": "OFF1",
+    "address": "Near Bus Stand",
+    "description": "Office Description Updated",
+    "dial_code": "+91",
+    "mobile_number": "9988776669",
+    "country_code": "IN",
+    "email": "krina.ios@intellisensetechnology.app",
+    "password": "$2a$10$vra/ohC76sMsULFIVY/NP.2sLEf1iJhilfo1I2bx7BJ.t49nWPDLq",
+    "access_token": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1656566862207"
+      }
+    },
+    "__v": 0,
+    "forgot_otp": "",
+    "status": 0,
+    "image": "1662553582784.png"
+  },
+  {
+    "_id": {
+      "$oid": "62bd581c3c8d103ee5251465"
+    },
+    "user_type": 2,
+    "name": "Eks Polokwane",
+    "code": "EKS1",
+    "reference_code": "",
+    "address": "2 Saffran Ave, Flora Park",
+    "description": "Satellite Office 1",
+    "dial_code": "+27",
+    "mobile_number": "152937780",
+    "country_code": "ZA",
+    "email": "admin@gmail.com",
+    "password": "$2a$10$mjw.BGX8.nQvMQ2ZePUr6.AUOOJmENKp0729kbU3L3OD1Ve9vLuC6",
+    "access_token": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1656576028537"
+      }
+    },
+    "__v": 0,
+    "status": 1
+  },
+  {
+    "_id": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "user_type": 2,
+    "name": "office3",
+    "code": "123456",
+    "reference_code": "OFF3",
+    "address": "Office 3 Address",
+    "description": "validation of profile update",
+    "dial_code": "+91",
+    "mobile_number": "8528523693",
+    "country_code": "IN",
+    "email": "office3@gmail.com",
+    "password": "$2a$10$jgr8PbuJEwJDE3LB7avahOFZKHf52Rt26cIR0b0geBuhM.ym9Yyje",
+    "access_token": "",
+    "status": 1,
+    "image": "1664788053937.png",
+    "forgot_otp": "509489",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1658558673321"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "62e3ade99ecadb83c2133bd8"
+    },
+    "user_type": 2,
+    "name": "Android Office",
+    "code": "1659-0883-61707",
+    "reference_code": "ADM1",
+    "address": "Android Office Address",
+    "description": "Android Office Description",
+    "dial_code": "+91",
+    "mobile_number": "7009111810",
+    "country_code": "IN",
+    "email": "virendersran4810@gmail.com",
+    "password": "$2a$10$g/SDDKsvtbqNy5UWRdJOh..6fFMw1z1iL/1/lg79jb11BRFp3IXQe",
+    "access_token": "",
+    "status": 1,
+    "image": "1659088361512.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1659088361708"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "632d960e6d0783b4d4813152"
+    },
+    "user_type": 3,
+    "name": "Android Techniciank",
+    "code": "1663-9319-18194",
+    "reference_code": "123456",
+    "address": "Address Android Technician Address For Testing Address",
+    "description": "Android Device Technician for installation, uninstallation, inspection for all android devices",
+    "dial_code": "+91",
+    "mobile_number": "9876543210",
+    "country_code": "IN",
+    "email": "android@gmail.com",
+    "password": "$2a$10$vEhgY44q2Pgp6mVCsbUl9uT7uJ8qm7jhSvYClCOnASN59BjBN00M.",
+    "access_token": "",
+    "status": 1,
+    "image": "1665822714031.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1663931918197"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "632d9d276d0783b4d48132c4"
+    },
+    "user_type": 4,
+    "name": "News Reporter",
+    "code": "1663-9337-35658",
+    "reference_code": "123456",
+    "address": "NH -13,Dist:, Sudhar, Punjab 141104, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9632580741",
+    "country_code": "IN",
+    "email": "newsreporter@gmail.com",
+    "password": "$2a$10$xLmdkSm1c5UpAjzuYSAFG.TD0JHcmsHD3aMuQBxjJLg3hiHpnHdyK",
+    "access_token": "",
+    "status": 1,
+    "image": "1663933735070.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": {
+      "$date": {
+        "$numberLong": "1664366242897"
+      }
+    },
+    "created_at": {
+      "$date": {
+        "$numberLong": "1663933735659"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "632d9fabc3e5afab9fbeb819"
+    },
+    "user_type": 4,
+    "name": "Android Customer",
+    "code": "1663-9343-79527",
+    "reference_code": "123456",
+    "address": "QJ6R+2V2, Akalgarh, Punjab 141106, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9638074512",
+    "country_code": "IN",
+    "email": "androidcustomer@gmail.com",
+    "password": "$2a$10$g8WvKYA7zwZ3yGJdHX8DouTiSRA4yAs41/WR0qj70BMNlJWSjGRo2",
+    "access_token": "",
+    "status": 1,
+    "image": "1663934379338.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": {
+      "$date": {
+        "$numberLong": "1664366238935"
+      }
+    },
+    "created_at": {
+      "$date": {
+        "$numberLong": "1663934379530"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "632dac545d1a497a7a551562"
+    },
+    "user_type": 4,
+    "name": "testk",
+    "code": "1663-9376-20111",
+    "reference_code": "123456",
+    "address": "7X97+6GC, 2, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "2580369140",
+    "country_code": "IN",
+    "email": "qw@gmail.com",
+    "password": "$2a$10$/cqewvcB/Tp0HnFl2fb0hegP8IxK/JtIvKFxPvxw1Hh1MkjOHmb.q",
+    "access_token": "",
+    "status": 1,
+    "image": "1663937619969.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": {
+      "$date": {
+        "$numberLong": "1664366232673"
+      }
+    },
+    "created_at": {
+      "$date": {
+        "$numberLong": "1663937620112"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "user_type": 2,
+    "name": "Validation",
+    "code": "1664-2642-51852",
+    "reference_code": "ADM1",
+    "address": "validation zone at UAT",
+    "description": "UAT is very uft",
+    "dial_code": "+91",
+    "mobile_number": "8010262011",
+    "country_code": "IN",
+    "email": "validation@gmail.com",
+    "password": "$2a$10$cPL0XIRMwLXyqm8sIPUsXeh6Kq.6gO8227nUwi9La2IPYYgpA.qyq",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048490727.png",
+    "forgot_otp": "752839",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664264251860"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6332de46c58fd029e594f093"
+    },
+    "user_type": 3,
+    "name": "Electrician",
+    "code": "1664-2780-86831",
+    "reference_code": "1664-2642-51852",
+    "address": "549-A, Adarsh Nagar, Jalandhar, Punjab 144008, India",
+    "description": "Nothing",
+    "dial_code": "+91",
+    "mobile_number": "9216082669",
+    "country_code": "IN",
+    "email": "technician1@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048390565.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664278086835"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "63340c7d544f3bf1700e43da"
+    },
+    "user_type": 2,
+    "name": "Verification",
+    "code": "1664-3554-53668",
+    "reference_code": "ADM1",
+    "address": "HRX >COM",
+    "description": "HRX >COM",
+    "dial_code": "+91",
+    "mobile_number": "8920306244",
+    "country_code": "IN",
+    "email": "hrx@gmail.com",
+    "password": "$2a$10$aGfMnleur.6Z4whEfab6qub0OeKrhmNDMh80tKxGoCFFgR3u47xXO",
+    "access_token": "",
+    "status": 1,
+    "image": "1664355453453.jpg",
+    "forgot_otp": "766968",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664355453669"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633418f0544f3bf1700e45f2"
+    },
+    "user_type": 3,
+    "name": "Plumber",
+    "code": "1664-3586-40145",
+    "reference_code": "ADM1",
+    "address": "Jalandhar punjab",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9879879871",
+    "country_code": "IN",
+    "email": "plumber@gmail.com",
+    "password": "$2a$10$DzXWR4mCVI8c1yucVOlhne0Wpmz4GnLR4AvXDYwx1KlCJdDKXulve",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048375235.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664358640146"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "63341938544f3bf1700e4608"
+    },
+    "user_type": 3,
+    "name": "Driver",
+    "code": "1664-3587-12106",
+    "reference_code": "ADM1",
+    "address": "Kapurthala, punjab",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9879879872",
+    "country_code": "IN",
+    "email": "Driver@gmail.com",
+    "password": "$2a$10$9QZtS.2OKbPDA0QAnCMAJeHqyNgP6f0fg25T5dFNAUuIGYxCEfy0e",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048357608.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664358712107"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "63341baf544f3bf1700e4618"
+    },
+    "user_type": 3,
+    "name": "cook",
+    "code": "1664-3593-43494",
+    "reference_code": "ADM1",
+    "address": "Model town , Jalandhar Punjab",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9879879873",
+    "country_code": "IN",
+    "email": "cook@gmail.com",
+    "password": "$2a$10$rMbJHbQ/.3.sgxbN/r8xPOMfXUvNQ0aRq4AqQo4j1KzShf5NCHfuC",
+    "access_token": "",
+    "status": 1,
+    "image": "1664359343317.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664359343494"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "63341bf0544f3bf1700e4620"
+    },
+    "user_type": 3,
+    "name": "Gardner",
+    "code": "1664-3594-08109",
+    "reference_code": "ADM1",
+    "address": "Kartar pur , jalandgar punjab",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9879879874",
+    "country_code": "IN",
+    "email": "Gardner@gmail.com",
+    "password": "$2a$10$LDGHraSg3UQQaiZdxlrky.C8ljWd0woczTfhgYbc27yNWfNvaRpq.",
+    "access_token": "",
+    "status": 1,
+    "image": "1664359407910.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664359408109"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "63342520544f3bf1700e4818"
+    },
+    "user_type": 3,
+    "name": "Machine operator",
+    "code": "1664-3617-60173",
+    "reference_code": "1664-2642-51852",
+    "address": "Unnamed Road, Dad Village, Ludhiana, Punjab 141021, India",
+    "description": "Lgodifcje",
+    "dial_code": "+91",
+    "mobile_number": "9879876543",
+    "country_code": "IN",
+    "email": "mo@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1664361760034.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664361760176"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633435493b2e79a16fe64bc8"
+    },
+    "user_type": 3,
+    "name": "tester",
+    "code": "1664-3658-97505",
+    "reference_code": "1664-3554-53668",
+    "address": "Kanpur Road, Jalandhar, Punjab 144012, India",
+    "description": "vi nskaksn",
+    "dial_code": "+91",
+    "mobile_number": "8010262011",
+    "country_code": "IN",
+    "email": "t@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1664365897008.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "63340c7d544f3bf1700e43da"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664365897509"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "63352f253b2e79a16fe652e6"
+    },
+    "user_type": 4,
+    "name": "Sagar",
+    "code": "1664-4298-61192",
+    "reference_code": "1664-3554-53668",
+    "address": "E-511/A, Ramphal Chowk, Sector-7,, Dwarka, Sector 11 Dwarka, Dwarka, Delhi, 110075, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9216082669",
+    "country_code": "IN",
+    "email": "sagar@gmail.com",
+    "password": "$2a$10$r3fPYP2LvXp5zr0gsa6sueP4p1Yprc/eELz/XHZ6EgqMSuJebJLOq",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048517168.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "63340c7d544f3bf1700e43da"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664429861192"
+      }
+    },
+    "__v": 0,
+    "lat": "28.590409",
+    "lng": "77.05137800000001"
+  },
+  {
+    "_id": {
+      "$oid": "633530173b2e79a16fe65310"
+    },
+    "user_type": 4,
+    "name": "Atinder",
+    "code": "1664-4301-03966",
+    "reference_code": "1664-2642-51852",
+    "address": "WM-192, NG Nagar, Basti Nau, Ashok Nagar, Jalandhar, Punjab 144002, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9879879874",
+    "country_code": "IN",
+    "email": "atinder@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048500358.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664430103966"
+      }
+    },
+    "__v": 0,
+    "lat": "31.32138",
+    "lng": "75.55275139999999"
+  },
+  {
+    "_id": {
+      "$oid": "63354a14da96709f1799cf0b"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1664-4367-56539",
+    "reference_code": "123456",
+    "address": "545 5th Ave, New York, NY 10017, USA",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9876543120",
+    "country_code": "IN",
+    "email": "oof@gmail.com",
+    "password": "$2a$10$YM.LsJMmc0AKAH/5FwuNyedsmjjlnxNPwVZvkTrp8Njd.zGlwci5y",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048489103.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664436756542"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6335538bda96709f1799d103"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1664-4391-79679",
+    "reference_code": "123456",
+    "address": "7X76+QXQ, Nansad - Koli Bharthana Rd, Nansad, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9638522580",
+    "country_code": "IN",
+    "email": "test@gma.com",
+    "password": "$2a$10$ZbJiKWRJtVdmXIOcO1f2BOqeepiqhnHlSpQ.k6zLQFjJ/BqFp0XOa",
+    "access_token": "",
+    "status": 0,
+    "image": "1665048477048.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664439179680"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6335558eda96709f1799d10e"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1664-4396-94996",
+    "reference_code": "123456",
+    "address": "Unnamed Road, Gujarat 394180, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9638522589",
+    "country_code": "IN",
+    "email": "testk@gma.com",
+    "password": "",
+    "access_token": "",
+    "status": 0,
+    "image": "1665048464117.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664439694997"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633566906ae53a6ffc5184d9"
+    },
+    "user_type": 4,
+    "name": "tezt",
+    "code": "1664-4440-48426",
+    "reference_code": "123456",
+    "address": "7X97+45W, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9856362514",
+    "country_code": "IN",
+    "email": "tgedt@gyj.com",
+    "password": "$2a$10$YxiBx.X23npV760tf00jSOwW9ZuGaPH0x9fpeYUKur4MvGRKHqCR.",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048453987.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664444048427"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "63357dd26ae53a6ffc518bd1"
+    },
+    "user_type": 2,
+    "name": "",
+    "code": "1664-4500-02880",
+    "reference_code": "ADM1",
+    "address": "GWEG",
+    "description": "GSAGS",
+    "dial_code": "+91",
+    "mobile_number": "9879879879",
+    "country_code": "IN",
+    "email": "abc@gmail.com",
+    "password": "$2a$10$I2E5iqIbDL.qXPu7Nn.hE.ce4ZAgyw4ehp4/7p1ACrgNz5m3tePwO",
+    "access_token": "",
+    "status": 1,
+    "image": "1664450002720.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": {
+      "$date": {
+        "$numberLong": "1664451682123"
+      }
+    },
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664450002880"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633580586ae53a6ffc518c3e"
+    },
+    "user_type": 3,
+    "name": "MGIDHI",
+    "code": "1664-4506-48072",
+    "reference_code": "ADM1",
+    "address": "HAEHEARHEARHH",
+    "description": "REHEARHHA",
+    "dial_code": "+91",
+    "mobile_number": "8010262044",
+    "country_code": "IN",
+    "email": "8@gmail.com",
+    "password": "$2a$10$.OYGqPR/ux.aTqWSPBjIFu9IxqphqOohsJTwRyIfAwjNt0RB7q7xi",
+    "access_token": "",
+    "status": 1,
+    "image": "1664450647932.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": {
+      "$date": {
+        "$numberLong": "1664450851668"
+      }
+    },
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664450648073"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6335808d6ae53a6ffc518c4b"
+    },
+    "user_type": 2,
+    "name": ",HGIUAING",
+    "code": "1664-4507-01220",
+    "reference_code": "ADM1",
+    "address": "DHH",
+    "description": "ERHERHER",
+    "dial_code": "+91",
+    "mobile_number": "8598964657",
+    "country_code": "IN",
+    "email": "ABC@gmail.com",
+    "password": "$2a$10$0qgLWl9ylUFSGeQjnnm5L.oE1hYj4TLXfqU22vanzeAnd46jVoBU2",
+    "access_token": "",
+    "status": 1,
+    "image": "1664450701072.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": {
+      "$date": {
+        "$numberLong": "1664450712891"
+      }
+    },
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664450701220"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6335864592155a7535a343d1"
+    },
+    "user_type": 2,
+    "name": "testrr",
+    "code": "1664-4521-65905",
+    "reference_code": "ADM1",
+    "address": "Near post office",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9216152521",
+    "country_code": "IN",
+    "email": "testrrrmfh@gmail.com",
+    "password": "$2a$10$FBJO5XP0V8t5/69rUPecgec5V0l8iQqGL8UalSCCsZaxpP/49mHFW",
+    "access_token": "",
+    "status": 1,
+    "image": "1664453718418.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664452165908"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633586516ae53a6ffc518eb4"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1664-4521-77326",
+    "reference_code": "123456",
+    "address": "Mysore Rd, Byatarayanapura, New Guddadahalli, Banashankari, Bengaluru, Karnataka 560026, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "8529637410",
+    "country_code": "IN",
+    "email": "test@gmail.com",
+    "password": "$2a$10$1VPDV1gbgLenmUVRieE2peqPr2QzqWHisCGqi6rzyKg6ESmXsn4tC",
+    "access_token": "",
+    "status": 0,
+    "image": "1665048443913.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664452177326"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633587246ae53a6ffc518ee5"
+    },
+    "user_type": 4,
+    "name": "testt",
+    "code": "1664-4523-88992",
+    "reference_code": "123456",
+    "address": "7X49+VWJ, Dadabhagavan Road, Kamrej, Gujarat 394180, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9638527410",
+    "country_code": "IN",
+    "email": "tesdy@gmail.com",
+    "password": "$2a$10$cXHAaU6O1jtNTKoCDhg22.b4nagi8QxRyGg7pEFy65TiUHzWiyffK",
+    "access_token": "",
+    "status": 0,
+    "image": "1665048432356.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664452388993"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6336c55c5ff192dc870f159f"
+    },
+    "user_type": 3,
+    "name": "Technician A",
+    "code": "1664-5338-52341",
+    "reference_code": "123456",
+    "address": "198, Near Jyothi Chowk, fateh pura, Jalandhar, Punjab 144001, India",
+    "description": "test description",
+    "dial_code": "+91",
+    "mobile_number": "9874563210",
+    "country_code": "IN",
+    "email": "techa@gmail.com",
+    "password": "$2a$10$OX/.dhDhJgWQGTvV/wCPs.PZOMCrg0PT4hXYDk5kGKOIdbe4eF8Kq",
+    "access_token": "",
+    "status": 1,
+    "image": "1664533852025.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664533852344"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6336c5dc5ff192dc870f15cb"
+    },
+    "user_type": 3,
+    "name": "Technician B",
+    "code": "1664-5339-80754",
+    "reference_code": "123456",
+    "address": "QJCW+2W9, Sudhar, Punjab 141104, India",
+    "description": "test description",
+    "dial_code": "+91",
+    "mobile_number": "9632580741",
+    "country_code": "IN",
+    "email": "techb@gmail.com",
+    "password": "$2a$10$bpJTYSwHE2CMrcP20cxZDe90vjexd9ySziYOsIWbcc37FSc/qFjCW",
+    "access_token": "",
+    "status": 1,
+    "image": "1664533980467.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664533980757"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6336c6375ff192dc870f15d4"
+    },
+    "user_type": 3,
+    "name": "Harjinder",
+    "code": "1664-5340-71884",
+    "reference_code": "123456",
+    "address": "QMH2+F8J, Sudhar Link Rd, Sudhar, Punjab 141104, India",
+    "description": "test description",
+    "dial_code": "+91",
+    "mobile_number": "9874560321",
+    "country_code": "IN",
+    "email": "harjinder@gmail.com",
+    "password": "$2a$10$QY.ELTdB4JbiSt0qJu8ltOYjbjypDLsNPwnn1oISBmTyTgWxpb0Pi",
+    "access_token": "",
+    "status": 1,
+    "image": "1664534071482.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664534071886"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6337e21993168863d2ad1f11"
+    },
+    "user_type": 3,
+    "name": "Charles Mnisi",
+    "code": "1664-6067-45325",
+    "reference_code": "1664-2642-51852",
+    "address": "Near Bus Stand1",
+    "description": "technician1 Description",
+    "dial_code": "+92",
+    "mobile_number": "9988776856",
+    "country_code": "PK",
+    "email": "teasfsd@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1664606744958.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664606745329"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6337ef8893168863d2ad220d"
+    },
+    "user_type": 4,
+    "name": "Eskom Holdings",
+    "code": "1664-6101-84840",
+    "reference_code": "1664-2642-51852",
+    "address": "Maxwell Drive Sunnyhill, Sunninghill, Sandton, 2157, South Africa",
+    "description": "",
+    "dial_code": "+27",
+    "mobile_number": "114752121",
+    "country_code": "ZA",
+    "email": "eskom@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1664794506311.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664610184858"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6337fd6893168863d2ad23be"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1664-6137-36897",
+    "reference_code": "123456",
+    "address": "112,santivan society B/h.ozon complex Mahadev mandir gali, near signet moll, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9865329865",
+    "country_code": "IN",
+    "email": "ter@gmail.com",
+    "password": "$2a$10$IhqvzcHYgjKxKoGE1nIGTe5k94E1c.Wl5ZusNUKl.80Bq6Chb9PQ2",
+    "access_token": "",
+    "status": 0,
+    "image": "1664613736751.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664613736898"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "63383a4193168863d2ad2a68"
+    },
+    "user_type": 3,
+    "name": "Tumelo Monnapula",
+    "code": "1664-6293-13025",
+    "reference_code": "1664-2642-51852",
+    "address": "330 Basson Rd, Raslouw, Centurion, 0157, South Africa",
+    "description": "Tech123",
+    "dial_code": "+27",
+    "mobile_number": "788541234",
+    "country_code": "ZA",
+    "email": "tumelo@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1665052159058.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664629313048"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633ab3c893168863d2ad3d9e"
+    },
+    "user_type": 3,
+    "name": "Boxer",
+    "code": "1664-7914-96119",
+    "reference_code": "1664-2642-51852",
+    "address": "37, Tanda Rd, Opp. KMV College, Aman Nagar, Jalandhar, Punjab 144003, India",
+    "description": "Island find some find didn’t",
+    "dial_code": "+91",
+    "mobile_number": "9050180887",
+    "country_code": "IN",
+    "email": "box@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1665126391029.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664791496124"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633ab61d93168863d2ad3f07"
+    },
+    "user_type": 4,
+    "name": "yes",
+    "code": "1664-7920-93614",
+    "reference_code": "1664-2642-51852",
+    "address": "7X97+6GC, 2, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "2589639639",
+    "country_code": "IN",
+    "email": "yrr@gmail.com",
+    "password": "$2a$10$GIRWP2avh.96D7WUruoicuNu8turG9/u8AuiXuCWm0N8VfjbQ2aAm",
+    "access_token": "",
+    "status": 0,
+    "image": "1664792093427.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664792093615"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633ab6ef93168863d2ad3f54"
+    },
+    "user_type": 4,
+    "name": "others",
+    "code": "1664-7923-03873",
+    "reference_code": "1664-2642-51852",
+    "address": "37, Tanda Rd, Opp. KMV College, Aman Nagar, Jalandhar, Punjab 144003, India",
+    "description": "",
+    "dial_code": "+1",
+    "mobile_number": "9865986580",
+    "country_code": "CA",
+    "email": "honey@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 0,
+    "image": "1664792446191.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664792303873"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633ab75493168863d2ad3f89"
+    },
+    "user_type": 4,
+    "name": "iikcjx",
+    "code": "1664-7924-04336",
+    "reference_code": "1664-2642-51852",
+    "address": "9HP6+G55, Fazilpur, Punjab 144004, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "8989203045",
+    "country_code": "IN",
+    "email": "ohh@gmail.com",
+    "password": "$2a$10$kEwSDxSUGi4r/QrqkUfaM.JktKAuikbQelUlcQKzHuIwDxMnbK53a",
+    "access_token": "",
+    "status": 1,
+    "image": "1664792403564.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664792404339"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633bceb099fac02cd939bf48"
+    },
+    "user_type": 4,
+    "name": "tedr",
+    "code": "1664-8639-20715",
+    "reference_code": "123456",
+    "address": "Enter Address",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9632587412",
+    "country_code": "IN",
+    "email": "tr@gmf.com",
+    "password": "$2a$10$I.S4ukxIToNwPsUQoJxkt.7SVgyg.5R5lzsEScTi0aVDS1FxjvEoa",
+    "access_token": "",
+    "status": 0,
+    "image": "1664863920554.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664863920716"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633bd12199fac02cd939bfb0"
+    },
+    "user_type": 4,
+    "name": "tes",
+    "code": "1664-8645-45879",
+    "reference_code": "123456",
+    "address": "Enter Address",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9856321478",
+    "country_code": "IN",
+    "email": "tref@gmail.com",
+    "password": "$2a$10$KQcc05CcxLIqC4oPJigYoe4u6JyhFN0GUgsQHgVLrLn6kMmLPsnyC",
+    "access_token": "",
+    "status": 0,
+    "image": "1664864545734.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664864545879"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633bd1de99fac02cd939bff8"
+    },
+    "user_type": 4,
+    "name": "ter",
+    "code": "1664-8647-34506",
+    "reference_code": "123456",
+    "address": "7X77+X9X, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9856321470",
+    "country_code": "IN",
+    "email": "trs@gmai.com",
+    "password": "",
+    "access_token": "",
+    "status": 0,
+    "image": "1664864781913.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664864734507"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633bd3d999fac02cd939c06e"
+    },
+    "user_type": 4,
+    "name": "uhh",
+    "code": "1664-8652-41737",
+    "reference_code": "123456",
+    "address": "7X97+6GC, 2, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9876543692",
+    "country_code": "IN",
+    "email": "tr@gh.com",
+    "password": "$2a$10$8lUdg3QBDOUqL.Qc7.BB/.GVJa4Zsc/R6rrJ2UcunaBKW1xmc/qVu",
+    "access_token": "",
+    "status": 0,
+    "image": "1664865241335.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664865241737"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633c1f009cc8f266abb0522c"
+    },
+    "user_type": 4,
+    "name": "didii",
+    "code": "1664-8844-80821",
+    "reference_code": "1664-2642-51852",
+    "address": "Likouala, Republic of the Congo",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9914693265",
+    "country_code": "IN",
+    "email": "yy@gmail.com",
+    "password": "",
+    "access_token": "",
+    "status": 1,
+    "image": "1665120861642.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1664884480822"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633e7c129cc8f266abb05c28"
+    },
+    "user_type": 2,
+    "name": "testing",
+    "code": "1665-0393-78614",
+    "reference_code": "ADM1",
+    "address": "Testing purpose",
+    "description": "Testing Purpose",
+    "dial_code": "+91",
+    "mobile_number": "9216082665",
+    "country_code": "IN",
+    "email": "itgetjobs8@gmail.com",
+    "password": "$2a$10$mzMuBJJ4cRhbfbToumMYKOQ6cM/wRHoBes9cYxTXZ87sFkTzqvr0S",
+    "access_token": "",
+    "status": 1,
+    "image": "1665042760634.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665039378614"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633ea09451277fd84b24d78e"
+    },
+    "user_type": 4,
+    "name": "Rakesh@",
+    "code": "1665-0487-24547",
+    "reference_code": "1664-2642-51852",
+    "address": "CH2V+VWW, Raipur Rasulpur, Punjab 144012, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "8920306244",
+    "country_code": "IN",
+    "email": "test23@gmail.com",
+    "password": "$2a$10$orwOyngQk2bsqqe5NirJCOpNgv02kYjHgkUJ8swy.gERaL1mpvJ7.",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048724353.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665048724548"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633ea0df51277fd84b24d7b6"
+    },
+    "user_type": 4,
+    "name": "Rakesh@",
+    "code": "1665-0487-99377",
+    "reference_code": "1664-2642-51852",
+    "address": "CH2V+VWW, Raipur Rasulpur, Punjab 144012, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "8920306245",
+    "country_code": "IN",
+    "email": "test232@gmail.com",
+    "password": "$2a$10$DBlMxzuevE3eddqL1MuTJONU/9QDYi9J8Tj3GCj4KSteekWTm1aYW",
+    "access_token": "",
+    "status": 1,
+    "image": "1665048799230.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665048799378"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633ea8c2424eca00fca22f90"
+    },
+    "user_type": 4,
+    "name": "customer",
+    "code": "1665-0508-18953",
+    "reference_code": "1664-2642-51852",
+    "address": "37, Tanda Rd, Opp. KMV College, Aman Nagar, Jalandhar, Punjab 144003, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9955886644",
+    "country_code": "IN",
+    "email": "customer156@gmail.com",
+    "password": "$2a$10$M9/MEBNhMQNdNe/c74QaEu3n/aesax4MVRTM/zaSHvmtSPp/Co1da",
+    "access_token": "",
+    "status": 1,
+    "image": "1665050818753.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "6332a83bfc77463c0d0a9ca6"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665050818960"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633ea8f9424eca00fca22f96"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1665-0508-73391",
+    "reference_code": "123456",
+    "address": "7X97+6GC, 2, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9875236542",
+    "country_code": "IN",
+    "email": "test@gmaul.com",
+    "password": "$2a$10$Etkwg2H40iXGR/piF87am.YvFksMrXpGcIEyJWPLFXVaIeySVgQAq",
+    "access_token": "",
+    "status": 0,
+    "image": "1665050873194.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665050873394"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633eaa22424eca00fca22fe0"
+    },
+    "user_type": 4,
+    "name": "red",
+    "code": "1665-0511-70688",
+    "reference_code": "123456",
+    "address": "7X97+6GC, 2, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9876543213",
+    "country_code": "IN",
+    "email": "ytf@gmail.com",
+    "password": "$2a$10$EEvT8xGX6TmYZphucs4uY.V66mv6yM8aMBTrMkaHbamqr4NU4zmWy",
+    "access_token": "",
+    "status": 0,
+    "image": "1665051170417.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665051170688"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633eabcc424eca00fca230b6"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1665-0515-96931",
+    "reference_code": "123456",
+    "address": "7X97+6GC, 2, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9638520258",
+    "country_code": "IN",
+    "email": "gggghu@gmail.com",
+    "password": "$2a$10$qR8UXznPjcARi0jJUN81.uuitD.nifI4OeSacm6gQoD6i0fqoMKLG",
+    "access_token": "",
+    "status": 1,
+    "image": "1665051596752.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665051596932"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633eac37424eca00fca230e5"
+    },
+    "user_type": 4,
+    "name": "customer5",
+    "code": "1665-0517-03785",
+    "reference_code": "123456",
+    "address": "Near bus stand",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9635946661",
+    "country_code": "IN",
+    "email": "Cukmer5589@gmail.com",
+    "password": "$2a$10$stN0JLrQqXu8vjOwvN083e3CQ/S.oWD2s.3WGLF2pkyqCRcX39n1W",
+    "access_token": "",
+    "status": 1,
+    "image": "1665051703290.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665051703785"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633eaeca424eca00fca2315e"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1665-0523-62957",
+    "reference_code": "123456",
+    "address": "7X97+6GC, 2, Kamrej, Gujarat 394185, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9638520147",
+    "country_code": "IN",
+    "email": "ter@gmai.com",
+    "password": "$2a$10$KjnMszl5zD2ezqoylyLmJuBTI9aD7T4z2cU8dRuUJk5vFbW1RjQZS",
+    "access_token": "",
+    "status": 1,
+    "image": "1665052362721.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665052362957"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "633eaeec424eca00fca23177"
+    },
+    "user_type": 4,
+    "name": "test",
+    "code": "1665-0523-96609",
+    "reference_code": "123456",
+    "address": "8, CMC Staff Colony, CMC Campus, Ludhiana, Punjab 141008, India",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9638520369",
+    "country_code": "IN",
+    "email": "tfvgg@gmai.com",
+    "password": "$2a$10$hp.mMk3sOrzWvby6j7b95.DeyLX0Ko97dcHpiNPUOrHOZVQDcXTpa",
+    "access_token": "",
+    "status": 1,
+    "image": "1665052396410.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62db98d18b2eb573a8c2241c"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665052396613"
+      }
+    },
+    "__v": 0,
+    "lat": "30.9064261",
+    "lng": "75.8632334"
+  },
+  {
+    "_id": {
+      "$oid": "63453327ea7ed9a8816d5d6f"
+    },
+    "user_type": 4,
+    "name": "Zinyama Trading",
+    "code": "1665-4794-63744",
+    "reference_code": "EKS1",
+    "address": "287 Thea Ave, Die Hoewes, Centurion, 0163, South Africa",
+    "description": "",
+    "dial_code": "+27",
+    "mobile_number": "848978462",
+    "country_code": "ZA",
+    "email": "nelsons@ekstracking.co.za",
+    "password": "$2a$10$RLfW2ec8yOF8YzOEpRYuzOEpUKYFhbs4UezJZp97jsuFbXcuQvH3C",
+    "access_token": "",
+    "status": 1,
+    "image": "1665479463249.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62bd581c3c8d103ee5251465"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665479463750"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6345349db142e5ec6495b8e9"
+    },
+    "user_type": 4,
+    "name": "testingwithaddress",
+    "code": "1665-4798-37058",
+    "reference_code": "ADM1",
+    "address": "Harz (Landkreis Göttingen), Germany",
+    "lat": "51.6745537",
+    "lng": "10.4311671",
+    "description": "",
+    "dial_code": "+91",
+    "mobile_number": "9216082654",
+    "country_code": "IN",
+    "email": "testingwithaddress@gmail.com",
+    "password": "$2a$10$IJmX.l2FxRcpX.Nj4OOF5ekgdwcF483n5eXBSoxuxPbepAfCSjP2a",
+    "access_token": "",
+    "status": 1,
+    "image": "1665487506628.jpg",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "628f4010809336aec17be474"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665479837062"
+      }
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6346a7d424afc8e4cff86c12"
+    },
+    "user_type": 3,
+    "name": "Thendo",
+    "code": "1665-5748-68786",
+    "reference_code": "EKS1",
+    "address": "269 Jean Ave, Die Hoewes, Centurion, 0163, South Africa",
+    "lat": "",
+    "lng": "",
+    "description": "Office",
+    "dial_code": "+27",
+    "mobile_number": "120034006",
+    "country_code": "ZA",
+    "email": "thendos@gmail.com",
+    "password": "$2a$10$43bA0OD4zLvyC2kXd49MB.Q./r1W0PngZa/6LKjJ9e8m55jxnFAg2",
+    "access_token": "",
+    "status": 1,
+    "image": "1665574868474.png",
+    "forgot_otp": "",
+    "created_by": {
+      "$oid": "62bd581c3c8d103ee5251465"
+    },
+    "updated_at": null,
+    "deleted_at": null,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1665574868789"
+      }
+    },
+    "__v": 0
+  }
+]

@@ -9,18 +9,22 @@ const access_token = [
 const userSchema = new mongoose.Schema({
   user_type: {
     type: String,
-    required: true,
+    required: [true, 'user type must be between 1 to 5'],
     trim: true,
     default: '',
     enum: [1, 2, 3, 4, 5],
   },
-  name: { type: String, trim: true, default: '', required: true },
+  name: {
+    type: String,
+    trim: true,
+    default: '',
+    required: [true, 'User must have a name'],
+  },
   code: { type: String, trim: true, default: '', unique: true, required: true },
   reference_code: {
     type: String,
     trim: true,
     default: '',
-    unique: true,
     required: true,
   },
   address: { type: String, trim: true, default: '', required: true },
@@ -49,7 +53,7 @@ const userSchema = new mongoose.Schema({
   image: { type: String, trim: true, default: '', required: false },
   forgot_otp: { type: String, trim: true, default: '', required: false },
 
-  created_at: { type: Date, default: Date.now, required: false },
+  created_at: { type: Date, default: Date, required: false },
   created_by: { type: ObjectId, default: null, required: false },
 
   updated_at: { type: Date, default: null, required: false },

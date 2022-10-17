@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
-    "start:prod": "set NODE_ENV=production&& nodemon server.js"
+    "start:prod": "set NODE_ENV=production&& nodemon server.js",
+    "import": "node dev-data/import-dev-data.js --import",
+    "delete": "node dev-data/import-dev-data.js --delete"
   },
   "author": "Atinderbir Singh",
   "license": "ISC",

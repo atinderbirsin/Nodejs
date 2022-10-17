@@ -13,7 +13,7 @@ const create = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: err.message,
+      message: err,
     });
   }
 };
@@ -37,16 +37,59 @@ const list = async (req, res) => {
   }
 };
 
-const get = (req, res) => {
-  res.status(200).send('dashboard also Working');
+const get = async (req, res) => {
+  try {
+    const user = await User.findById(req.body.id);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
 };
 
-const update = (req, res) => {
-  res.status(200).send('dashboard also Working');
+const update = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.body.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
 };
 
-const remove = (req, res) => {
-  res.status(200).send('dashboard also Working');
+const remove = async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.body.id, { deleted_at: Date.now() });
+
+    res.status(200).json({
+      status: 'success',
+      data: {},
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
 };
 
 export default {
