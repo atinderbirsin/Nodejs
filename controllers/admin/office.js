@@ -20,7 +20,28 @@ const create = async (req, res) => {
 
 const list = async (req, res) => {
   try {
-    const users = await User.find({ user_type: '2' });
+    // Step 1(A) Creating a query
+    const queryObj = req.body;
+    const excludedFields = ['limit', 'sort', 'page', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    // Step 1(B) Advanced Filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(lte|lt|gte|gt)\b/g, (match) => `$${match}`);
+
+    const query = User.find(JSON.parse(queryStr));
+    // const users = await User.find({ user_type: '2' });
+
+    // Step 2 Sorting
+    if (req.body.query) {
+      const sortBy = req.body.query.split(',').join(' ');
+      query.sort(sortBy);
+    } else {
+      query.sort('-created_at');
+    }
+
+    // EXECUTE QUERY
+    const users = await query;
 
     res.status(200).json({
       status: 'success',

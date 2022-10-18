@@ -15,7 +15,7 @@ mongoose
 
 const __dirname = path.resolve();
 const users = JSON.parse(
-  fs.readFileSync(`${__dirname}/dev-data/user.json`, 'utf-8')
+  fs.readFileSync(`${__dirname}/dev-data/users.json`, 'utf-8')
 );
 
 const importData = async () => {
@@ -23,20 +23,20 @@ const importData = async () => {
     await User.create(users, { validateBeforeSave: false });
 
     console.log(`Data added successfully`);
-    process.exit();
   } catch (err) {
     console.log(err.message);
   }
+  process.exit();
 };
 
 const deleteData = async () => {
   try {
     await User.deleteMany();
     console.log(`Database cleared successfully`);
-    process.exit();
   } catch (err) {
     console.log(err.message);
   }
+  process.exit();
 };
 
 if (process.argv[2] === '--import') {
