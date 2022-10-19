@@ -47,17 +47,29 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  password: { type: String, trim: true, default: '', required: true },
+  password: {
+    type: String,
+    trim: true,
+    default: '',
+    required: true,
+    select: false,
+  },
   access_token,
   status: { type: Number, trim: true, default: 0, required: true },
   image: { type: String, trim: true, default: '', required: false },
-  forgot_otp: { type: String, trim: true, default: '', required: false },
+  forgot_otp: {
+    type: String,
+    trim: true,
+    default: '',
+    required: false,
+    select: false,
+  },
 
-  created_at: { type: Date, default: Date, required: false },
-  created_by: { type: ObjectId, default: null, required: false },
+  created_at: { type: Date, default: Date, required: false, select: false },
+  created_by: { type: ObjectId, default: null, required: false, select: false },
 
-  updated_at: { type: Date, default: null, required: false },
-  deleted_at: { type: Date, default: null, required: false },
+  updated_at: { type: Date, default: null, required: false, select: false },
+  deleted_at: { type: Date, default: null, required: false, select: false },
 });
 
 const User = mongoose.model('User', userSchema);

@@ -22,6 +22,7 @@ const list = async (req, res) => {
   try {
     // Step 1(A) Creating a query
     const queryObj = req.body;
+    queryObj.user_type = 2;
     const excludedFields = ['limit', 'sort', 'page', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
 
@@ -38,6 +39,14 @@ const list = async (req, res) => {
       query.sort(sortBy);
     } else {
       query.sort('-created_at');
+    }
+
+    // Step 3 selecting fields
+    if (req.body.fields) {
+      const fields = req.body.fields.split(',').join(' ');
+      query.select(fields);
+    } else {
+      query.select('-__v');
     }
 
     // EXECUTE QUERY
