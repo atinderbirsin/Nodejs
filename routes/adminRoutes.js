@@ -11,5 +11,6 @@ router.post('/office/list', office.list);
 router.post('/office/get', office.get);
 router.post('/office/update', office.update);
 router.post('/office/delete', office.remove);
+router.post('/office/stats', office.userStats);
 
 export default router;

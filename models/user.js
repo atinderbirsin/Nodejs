@@ -8,7 +8,7 @@ const access_token = [
 
 const userSchema = new mongoose.Schema({
   user_type: {
-    type: String,
+    type: Number,
     required: [true, 'user type must be between 1 to 5'],
     trim: true,
     default: '',

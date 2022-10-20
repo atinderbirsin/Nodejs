@@ -1,4 +1,5 @@
 import User from '../../models/user.js';
+import apiFeatures from '../../util/apiFeatures.js';
 
 const create = async (req, res) => {
   try {
@@ -20,37 +21,14 @@ const create = async (req, res) => {
 
 const list = async (req, res) => {
   try {
-    // Step 1(A) Creating a query
-    const queryObj = req.body;
-    queryObj.user_type = 2;
-    const excludedFields = ['limit', 'sort', 'page', 'fields'];
-    excludedFields.forEach((el) => delete queryObj[el]);
-
-    // Step 1(B) Advanced Filtering
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(lte|lt|gte|gt)\b/g, (match) => `$${match}`);
-
-    const query = User.find(JSON.parse(queryStr));
-    // const users = await User.find({ user_type: '2' });
-
-    // Step 2 Sorting
-    if (req.body.query) {
-      const sortBy = req.body.query.split(',').join(' ');
-      query.sort(sortBy);
-    } else {
-      query.sort('-created_at');
-    }
-
-    // Step 3 selecting fields
-    if (req.body.fields) {
-      const fields = req.body.fields.split(',').join(' ');
-      query.select(fields);
-    } else {
-      query.select('-__v');
-    }
-
     // EXECUTE QUERY
-    const users = await query;
+    // eslint-disable-next-line new-cap
+    const features = new apiFeatures(User.find(), req.body)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const users = await features.query;
 
     res.status(200).json({
       status: 'success',
@@ -122,10 +100,50 @@ const remove = async (req, res) => {
   }
 };
 
+const userStats = async (req, res) => {
+  try {
+    const stats = await User.aggregate([
+      {
+        $match: { user_type: { $gte: 2 } },
+      },
+      {
+        $group: {
+          _id: '$user_type',
+          /* name: { $toUpper: '$name' }, */
+          numUsers: { $sum: 1 },
+          activeUsers: { $sum: '$status' },
+          avgActiveUsers: { $avg: '$status' },
+          min: { $min: '$status' },
+          max: { $max: '$status' },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+      {
+        $match: { _id: { $ne: 5 } },
+      },
+    ]);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
 export default {
   create,
   list,
   get,
   update,
+  userStats,
   remove,
 };
