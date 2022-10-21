@@ -139,11 +139,62 @@ const userStats = async (req, res) => {
   }
 };
 
+const monthlyPlan = async (req, res) => {
+  try {
+    const year = +req.body.year;
+
+    const plans = await User.aggregate([
+      {
+        $unwind: 'startDates',
+      },
+      {
+        $match: {
+          startDates: {
+            $gte: new Date(`${year}-01-01`),
+            $lte: new Date(`${year}-12-31`),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $month: '$startDates' }, // Search aggregation pipeline operators on google
+          numTourStarts: { $sum: 1 },
+          tours: { $push: '$name' },
+        },
+      },
+      {
+        $addFields: { month: '$_id' },
+      },
+      {
+        $project: {
+          _id: 0,
+        },
+      },
+      {
+        $sort: { numTourStarts: -1 }, // Entry which has maximum tours is first (descending order)
+      },
+    ]);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        plans,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
 export default {
   create,
   list,
   get,
   update,
   userStats,
+  monthlyPlan,
   remove,
 };
