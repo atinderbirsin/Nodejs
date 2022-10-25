@@ -25,4 +25,11 @@ app.use(express.urlencoded({ extended: true }));
 // routes
 app.use('/admin', adminRoutes);
 
+app.all('*', (req, res) => {
+  res.status(404).json({
+    status: 0,
+    message: `Can't find ${req.originalUrl} on this server!`,
+  });
+});
+
 export default app;

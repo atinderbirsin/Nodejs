@@ -6,14 +6,56 @@ const access_token = [
   { type: String, trim: true, default: '', required: false },
 ];
 
+const vehicles = [
+  {
+    name: {
+      type: String,
+      trim: true,
+      default: '',
+      required: [true, 'Vehicle must have a name'],
+    },
+    description: { type: String, trim: true, default: '', requried: false },
+    status: {
+      type: Number,
+      trim: true,
+      default: 0,
+      required: true,
+      validate: {
+        validator: function (val) {
+          return val === 1 || val === 0;
+        },
+        message: 'Status should be either active or inactive',
+      },
+    },
+    vehicle_number: { type: String, default: '', trim: true, required: true },
+    vehicle_make: { type: String, default: '', trim: true, required: true },
+    vehicle_model: { type: String, default: '', trim: true, required: true },
+    vehicle_color: { type: String, default: '', trim: true, required: true },
+    image: { type: String, default: '', trim: true, required: false },
+
+    created_at: { type: Date, default: Date.now, select: false },
+    created_by: {
+      type: ObjectId,
+      default: null,
+      required: false,
+      select: false,
+    },
+    updated_at: { type: Date, default: null, select: false },
+    deleted_at: { type: Date, default: null, select: false },
+  },
+];
+
 const userSchema = new mongoose.Schema(
   {
     user_type: {
       type: Number,
-      required: [true, 'user type must be between 1 to 5'],
+      required: true,
       trim: true,
       default: '',
-      enum: [1, 2, 3, 4, 5],
+      enum: {
+        values: [1, 2, 3, 4, 5],
+        message: 'User type must be either office, technician or customer',
+      },
     },
     name: {
       type: String,
@@ -35,9 +77,9 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     address: { type: String, trim: true, default: '', required: true },
-    lat: { type: String, trim: true, default: '', required: true },
-    lng: { type: String, trim: true, default: '', required: true },
-    description: { type: String, trim: true, default: '' },
+    lat: { type: String, trim: true, default: '', required: false },
+    lng: { type: String, trim: true, default: '', required: false },
+    description: { type: String, trim: true, default: '', requried: false },
     dial_code: { type: String, trim: true, default: '', required: true },
     mobile_number: {
       type: String,
@@ -62,8 +104,20 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
     access_token,
-    status: { type: Number, trim: true, default: 0, required: true },
+    status: {
+      type: Number,
+      trim: true,
+      default: 0,
+      required: true,
+      validate: {
+        validator: function (val) {
+          return val === 1 || val === 0;
+        },
+        message: 'Status should be either active or inactive',
+      },
+    },
     image: { type: String, trim: true, default: '', required: false },
+    vehicles,
     forgot_otp: {
       type: String,
       trim: true,
