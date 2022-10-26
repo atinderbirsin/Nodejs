@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import validator from 'validator';
 
 const { ObjectId } = Schema;
 
@@ -54,14 +55,20 @@ const userSchema = new mongoose.Schema(
       default: '',
       enum: {
         values: [1, 2, 3, 4, 5],
-        message: 'User type must be either office, technician or customer',
+        message: 'must be either office, technician or customer',
       },
     },
     name: {
       type: String,
       trim: true,
       default: '',
-      required: [true, 'User must have a name'],
+      required: true,
+      validate: {
+        validator: function (val) {
+          return val.length >= 3 && val.length <= 30;
+        },
+        message: 'must be 3 to 30 characters long',
+      },
     },
     code: {
       type: String,
@@ -76,7 +83,12 @@ const userSchema = new mongoose.Schema(
       default: '',
       required: true,
     },
-    address: { type: String, trim: true, default: '', required: true },
+    address: {
+      type: String,
+      trim: true,
+      default: '',
+      required: true,
+    },
     lat: { type: String, trim: true, default: '', required: false },
     lng: { type: String, trim: true, default: '', required: false },
     description: { type: String, trim: true, default: '', requried: false },
@@ -93,8 +105,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       default: '',
-      unique: true,
+      // unique: true,
       required: true,
+      validate: [validator.isEmail, 'Please eneter a valid email'],
     },
     password: {
       type: String,

@@ -1,4 +1,6 @@
 import express from 'express';
+import multer from 'multer';
+import path from 'path';
 import {
   account,
   office,
@@ -6,14 +8,35 @@ import {
   customer,
   deviceAttribute,
   device,
+  order,
 } from '../controllers/admin/index.js';
+
+const userStorage = multer.diskStorage({
+  destination: './public/user/',
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const userUpload = multer({
+  storage: userStorage,
+  fileFilter: function (req, file, cb) {
+    const types = ['image/jpeg', 'image/jpeg', 'image/png', 'image/webp'];
+    if (types.indexOf(file.mimetype) !== -1) {
+      cb(null, true);
+    } else {
+      req.fileValidationError = 'Image must be of valid format';
+      cb(null, false, req.fileValidationError); // false case not match
+    }
+  },
+});
 
 const router = express.Router();
 
 router.post('/login', account.login);
 router.post('/dashboard', account.dashboard);
 
-router.post('/office/create', office.create);
+router.post('/office/create', userUpload.single('image'), office.create);
 router.post('/office/list', office.list);
 router.post('/office/get', office.get);
 router.post('/office/update', office.update);
@@ -43,5 +66,9 @@ router.post('/device/list', device.list);
 router.post('/device/get', device.get);
 router.post('/device/update', device.update);
 router.post('/device/delete', device.remove);
+
+router.post('/order/list', order.list);
+router.post('/order/get', order.get);
+router.post('/order/update', order.update);
 
 export default router;

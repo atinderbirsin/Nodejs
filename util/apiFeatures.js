@@ -20,7 +20,7 @@ class apiFeatures {
     // );
     // this.queryString = JSON.parse(this.queryString);
 
-    this.queryString.user_type = 2;
+    // this.queryString.user_type = 2;
 
     this.query = this.query.find(this.queryString);
 

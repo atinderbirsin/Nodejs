@@ -21,6 +21,8 @@ const create = async (req, res) => {
 
 const list = async (req, res) => {
   try {
+    req.body.user_type = 3;
+
     // EXECUTE QUERY
     // eslint-disable-next-line new-cap
     const features = new apiFeatures(User.find(), req.body)
