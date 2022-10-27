@@ -9,6 +9,9 @@ export default {
   imageValidationError: ' Image must be of valid format',
   userIdRequired: ' User id is required!',
   invalidCredentials: ' Invalid details!',
+  attributeIdRequired: ' Attribute id is required!',
+  emailAddressExist: ' Email address already exist!',
+  mobileNumberExist: ' Mobile number already exist!',
 
   fullNameRequired: 'Full name is required!',
   dialCodeRequired: 'Dial code is required!',

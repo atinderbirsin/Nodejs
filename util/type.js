@@ -6,9 +6,15 @@ const USER_TYPE = {
   VENDOR: 5,
 };
 
+const STATUS_TYPE = {
+  INACTIVE: 0,
+  ACTIVE: 1,
+};
+
 const ADMIN_CODE = 'ADMIN';
 
 export default {
   USER_TYPE,
   ADMIN_CODE,
+  STATUS_TYPE,
 };

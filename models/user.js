@@ -34,17 +34,41 @@ const vehicles = [
     vehicle_color: { type: String, default: '', trim: true, required: true },
     image: { type: String, default: '', trim: true, required: false },
 
-    created_at: { type: Date, default: Date.now, select: false },
+    created_at: { type: Date, default: Date.now, select: false, required: false },
     created_by: {
       type: ObjectId,
       default: null,
       required: false,
       select: false,
     },
-    updated_at: { type: Date, default: null, select: false },
-    deleted_at: { type: Date, default: null, select: false },
+    updated_at: { type: Date, default: null, select: false, required: false },
+    deleted_at: { type: Date, default: null, select: false, required: false },
   },
 ];
+
+const validateEmailAlreadyExist = async function (email) {
+  // eslint-disable-next-line no-use-before-define
+  const user = await User.findOne({ email });
+  if (user) {
+    if (this.id === user.id) {
+      return true;
+    }
+    return false;
+  }
+  return true;
+};
+
+const mobileNumberAlreadyExist = async function (mobile_number) {
+  // eslint-disable-next-line no-use-before-define
+  const user = await User.findOne({ mobile_number });
+  if (user) {
+    if (this.id === user.id) {
+      return true;
+    }
+    return false;
+  }
+  return true;
+};
 
 const userSchema = new mongoose.Schema(
   {
@@ -91,7 +115,7 @@ const userSchema = new mongoose.Schema(
     },
     lat: { type: String, trim: true, default: '', required: false },
     lng: { type: String, trim: true, default: '', required: false },
-    description: { type: String, trim: true, default: '', requried: false },
+    description: { type: String, trim: true, default: '', required: false },
     dial_code: { type: String, trim: true, default: '', required: true },
     mobile_number: {
       type: String,
@@ -99,6 +123,12 @@ const userSchema = new mongoose.Schema(
       default: '',
       unique: true,
       required: true,
+      validate: [
+        {
+          validator: mobileNumberAlreadyExist,
+          message: 'Mobile number already registered!',
+        },
+      ],
     },
     country_code: { type: String, trim: true, default: '', required: true },
     email: {
@@ -107,13 +137,16 @@ const userSchema = new mongoose.Schema(
       default: '',
       // unique: true,
       required: true,
-      validate: [validator.isEmail, 'Please eneter a valid email'],
+      validate: [
+        { validator: validator.isEmail, message: 'Please eneter a valid email' },
+        { validator: validateEmailAlreadyExist, message: 'Email already registered!' },
+      ],
     },
     password: {
       type: String,
       trim: true,
       default: '',
-      required: true,
+      // required: true,
       // select: false,
     },
     access_token: { type: String, trim: true, default: '', required: false },
@@ -139,7 +172,7 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
     /* slug: { type: string } */
-    created_at: { type: Date, default: Date, required: false, select: false },
+    created_at: { type: Date, default: Date, select: false, required: false },
     created_by: {
       type: ObjectId,
       default: null,
@@ -147,8 +180,8 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
 
-    updated_at: { type: Date, default: null, required: false, select: false },
-    deleted_at: { type: Date, default: null, required: false, select: false },
+    updated_at: { type: Date, default: null, select: false, required: false },
+    deleted_at: { type: Date, default: null, select: false, required: false },
   }
   /* { To add virtual properties
     toJSON: { virtuals: true },
@@ -166,6 +199,18 @@ userSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();           
 }); */
+
+userSchema.pre('findOneAndUpdate', async function (next) {
+  // eslint-disable-next-line no-use-before-define
+  const user = await User.findOne(this.getQuery());
+  this.id = user._id.toString();
+  next();
+});
+
+// userSchema.pre('findOneAndUpdate', function (next) {
+//   this.options.runValidators = true;
+//   next();
+// });
 
 /* DOCUMENT MIDDLEWARE: runs before .save() and .create()
 Middleware that runs before document is being saved in database

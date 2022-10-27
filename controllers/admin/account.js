@@ -1,9 +1,9 @@
 import { helperFn } from '../../helper/index.js';
 import languageHelper from '../../helper/language.js';
 import sanitize from '../../helper/sanitize.js';
-import commonModel from '../../models/commmon.js';
+import commonModel from '../../models/common.js';
 import User from '../../models/user.js';
-import { fn, type } from '../../util/index.js';
+import { type } from '../../util/index.js';
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -36,7 +36,7 @@ const login = async (req, res) => {
 
     res.json(commonModel.success(sanitize.admin(user, false)));
   } catch (err) {
-    res.json(commonModel.failure(fn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
@@ -75,7 +75,7 @@ const dashboard = async (req, res) => {
 
     res.json(commonModel.success(stats));
   } catch (err) {
-    res.json(commonModel.failure(fn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 

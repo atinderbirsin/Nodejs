@@ -1,32 +1,22 @@
 import bcryptjs from 'bcryptjs';
-import { languageHelper, sanitize } from '../../helper/index.js';
-import commonModel from '../../models/commmon.js';
+import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
+import commonModel from '../../models/common.js';
 import User from '../../models/user.js';
-import { constant, fn, type } from '../../util/index.js';
+import { constant, type } from '../../util/index.js';
 
 const create = async (req, res) => {
-  const emailExist = await User.findOne({
-    email: req.body.email,
-  });
-
-  const mobileNumberExist = await User.findOne({
-    dial_code: req.body.dial_code,
-    mobile_number: req.body.mobile_number,
-  });
-
+  const { password } = req.body;
   try {
-    if (emailExist) {
-      throw new Error(languageHelper.emailAlreadyRegistered);
-    } else if (mobileNumberExist) {
-      throw new Error(languageHelper.mobileNumberAlreadyRegistered);
-    } else if (req.fileValidationError) {
+    if (req.fileValidationError) {
       throw new Error(languageHelper.imageValidationError);
+    } else if (!password || password.trim().length <= 0) {
+      throw new Error(languageHelper.passwordRequired);
     }
 
     req.body.password = await bcryptjs.hash(req.body.password, constant.hashLength);
     req.body.user_type = type.USER_TYPE.OFFICE;
     req.body.image = req.file ? req.file.filename : '';
-    req.body.code = fn.serialNumber();
+    req.body.code = helperFn.serialNumber();
     req.body.reference_code = type.ADMIN_CODE;
     req.body.created_by = req.jwt_id;
 
@@ -34,7 +24,7 @@ const create = async (req, res) => {
 
     res.json(commonModel.success(sanitize.User(user, true)));
   } catch (err) {
-    res.json(commonModel.failure(fn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
@@ -88,7 +78,7 @@ const list = async (req, res) => {
 
     res.json(commonModel.listSuccess(users, total, limit));
   } catch (err) {
-    res.json(commonModel.failure(fn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
@@ -112,16 +102,26 @@ const get = async (req, res) => {
 
     res.json(commonModel.success(sanitize.User(user, true)));
   } catch (err) {
-    res.json(commonModel.failure(fn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
 const update = async (req, res) => {
-  const { id } = req.body;
+  const { id, password } = req.body;
   try {
     if (!id) {
       throw new Error(languageHelper.userIdRequired);
+    } else if (req.fileValidationError) {
+      throw new Error(languageHelper.imageValidationError);
     }
+
+    if (password) {
+      req.body.password = await bcryptjs.hash(password, constant.hashLength);
+    }
+    if (req.file) {
+      req.body.image = req.file.filename;
+    }
+
     const filter = {
       _id: id,
       deleted_at: null,
@@ -131,11 +131,16 @@ const update = async (req, res) => {
     const user = await User.findOneAndUpdate(filter, req.body, {
       new: true,
       runValidators: true,
+      context: 'query',
     });
+
+    if (!user) {
+      throw new Error(languageHelper.invalidCredentials);
+    }
 
     res.json(commonModel.success(sanitize.User(user, true)));
   } catch (err) {
-    res.json(commonModel.failure(fn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
@@ -154,7 +159,7 @@ const remove = async (req, res) => {
 
     res.json(commonModel.success(''));
   } catch (err) {
-    res.json(commonModel.failure(fn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 

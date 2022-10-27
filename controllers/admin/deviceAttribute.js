@@ -1,42 +1,64 @@
+import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
+import commonModel from '../../models/common.js';
 import DeviceAttribute from '../../models/deviceAttribute.js';
-import apiFeatures from '../../util/apiFeatures.js';
 
 const create = async (req, res) => {
   try {
     const deviceAttribute = await DeviceAttribute.create(req.body);
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        deviceAttribute,
-      },
-    });
+    res.json(commonModel.success(sanitize.deviceAttribute(deviceAttribute)));
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
 const list = async (req, res) => {
   try {
-    // EXECUTE QUERY
+    req.body.deleted_at = null;
+    let { page, limit, sort, order } = req.body;
+    limit = +limit || 10;
+    page = +page || 1;
+    order = +order || -1;
+    sort = sort ? { [sort]: order } : { created_at: order };
+    const search = req.body.search ? { $text: { $search: req.body.search } } : {};
+
+    console.log(search);
+
+    /* EXECUTE QUERY
     // eslint-disable-next-line new-cap
     const features = new apiFeatures(DeviceAttribute.find(), req.body)
       .filter()
       .sort()
       .limitFields()
       .paginate();
-    const deviceAttributes = await features.query;
+    const deviceAttributes = await features.query; */
 
-    res.status(200).json({
-      status: 'success',
-      result: deviceAttributes.length,
-      data: {
-        device_attribute: deviceAttributes,
+    let deviceAttributes = await DeviceAttribute.aggregate([
+      {
+        $match: search,
       },
-    });
+      {
+        $match: {
+          deleted_at: {
+            $eq: null,
+          },
+        },
+      },
+      {
+        $sort: sort,
+      },
+      {
+        $skip: (+page - 1) * +limit,
+      },
+      {
+        $limit: +limit,
+      },
+    ]);
+
+    deviceAttributes = deviceAttributes.map((device) => sanitize.deviceAttribute(device));
+    const total = await DeviceAttribute.count(req.body);
+
+    res.json(commonModel.listSuccess(deviceAttributes, total, limit));
   } catch (err) {
     res.status(400).json({
       status: 'fail',
@@ -46,63 +68,72 @@ const list = async (req, res) => {
 };
 
 const get = async (req, res) => {
+  const { id } = req.body;
   try {
-    const deviceAttribute = await DeviceAttribute.findById(req.body.id);
+    if (!id) {
+      throw new Error(languageHelper.attributeIdRequired);
+    }
+    const filter = {
+      _id: id,
+      deleted_at: null,
+    };
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        deviceAttribute,
-      },
-    });
+    const deviceAttribute = await DeviceAttribute.findOne(filter);
+
+    if (!deviceAttribute) {
+      throw new Error(languageHelper.invalidCredentials);
+    }
+
+    res.json(commonModel.success(sanitize.deviceAttribute(deviceAttribute)));
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message,
-    });
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
 const update = async (req, res) => {
+  const { id } = req.body;
   try {
-    const deviceAttribute = await DeviceAttribute.findByIdAndUpdate(
-      req.body.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    if (!id) {
+      throw new Error(languageHelper.attributeIdRequired);
+    }
+    const filter = {
+      _id: id,
+      deleted_at: null,
+    };
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        deviceAttribute,
-      },
+    const deviceAttribute = await DeviceAttribute.findOneAndUpdate(filter, req.body, {
+      new: true,
+      runValidators: true,
     });
+
+    if (!deviceAttribute) {
+      throw new Error(languageHelper.invalidCredentials);
+    }
+
+    res.json(commonModel.success(sanitize.deviceAttribute(deviceAttribute)));
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message,
-    });
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
 const remove = async (req, res) => {
+  const { id } = req.body;
   try {
-    await DeviceAttribute.findByIdAndUpdate(req.body.id, {
+    if (id) {
+      throw new Error(languageHelper.attributeIdRequired);
+    }
+
+    const deviceAttribute = await DeviceAttribute.findByIdAndUpdate(req.body.id, {
       deleted_at: Date.now(),
     });
 
-    res.status(200).json({
-      status: 'success',
-      data: {},
-    });
+    if (!deviceAttribute) {
+      throw new Error(languageHelper.invalidCredentials);
+    }
+
+    res.json(commonModel.success(''));
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message,
-    });
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 

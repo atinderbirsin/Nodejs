@@ -21,8 +21,8 @@ export default {
     per_page: per_page,
   }),
   toObjectId: (id) => mongoose.Types.ObjectId(id),
-  generateToken: (userId, userType, expiry = process.env.AUTH_JWT_EXPIRY) => {
-    const jwtPayload = { userId: userId, userType: userType };
+  generateToken: (id, user_type, expiry = process.env.AUTH_JWT_EXPIRY) => {
+    const jwtPayload = { id: id, user_type: user_type };
     const jwtOptions = { expiresIn: expiry };
     return jwt.sign(jwtPayload, process.env.JWT_KEY, jwtOptions);
   },

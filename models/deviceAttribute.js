@@ -1,11 +1,29 @@
 import mongoose from 'mongoose';
 
+const nameAlreadyExist = async function (name) {
+  // eslint-disable-next-line no-use-before-define
+  const user = await DeviceAttribute.findOne({ name });
+  if (user) {
+    if (this.id === user.id) {
+      return true;
+    }
+    return false;
+  }
+  return true;
+};
+
 const deviceAttributeSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
     default: '',
     required: [true, 'Device attribute must have a name'],
+    validate: [
+      {
+        validator: nameAlreadyExist,
+        message: 'Name is already taken!',
+      },
+    ],
   },
   status: {
     type: Number,
@@ -26,9 +44,22 @@ const deviceAttributeSchema = new mongoose.Schema({
   deleted_at: { type: Date, default: null, required: false, select: false },
 });
 
-const DeviceAttribute = mongoose.model(
-  'DeviceAttribute',
-  deviceAttributeSchema
+deviceAttributeSchema.pre('findOneAndUpdate', async function (next) {
+  // eslint-disable-next-line no-use-before-define
+  const user = await DeviceAttribute.findOne(this.getQuery());
+  this.id = user._id.toString();
+  next();
+});
+
+deviceAttributeSchema.index(
+  {
+    name: 'text',
+  },
+  { name: 'text' }
 );
+
+const DeviceAttribute = mongoose.model('DeviceAttribute', deviceAttributeSchema);
+
+DeviceAttribute.createIndexes();
 
 export default DeviceAttribute;

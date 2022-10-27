@@ -57,11 +57,11 @@ router.post('/customer/update', auth, userUpload.single('image'), customer.updat
 router.post('/customer/delete', auth, userUpload.none(), customer.remove);
 router.post('/customer/service', customer.service);
 
-router.post('/device-attribute/create', deviceAttribute.create);
-router.post('/device-attribute/list', deviceAttribute.list);
-router.post('/device-attribute/get', deviceAttribute.get);
-router.post('/device-attribute/update', deviceAttribute.update);
-router.post('/device-attribute/delete', deviceAttribute.remove);
+router.post('/device-attribute/create', auth, userUpload.none(), deviceAttribute.create);
+router.post('/device-attribute/list', auth, deviceAttribute.list);
+router.post('/device-attribute/get', auth, deviceAttribute.get);
+router.post('/device-attribute/update', auth, deviceAttribute.update);
+router.post('/device-attribute/delete', auth, deviceAttribute.remove);
 
 router.post('/device/create', device.create);
 router.post('/device/list', device.list);

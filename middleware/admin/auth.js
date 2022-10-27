@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken';
-import languageHelper from '../../helper/language.js';
-import commmonHelper from '../../models/commmon.js';
-
+import { languageHelper, helperFn } from '../../helper/index.js';
+import commonHelper from '../../models/common.js';
 import User from '../../models/user.js';
-import fn from '../../util/fn.js';
 import type from '../../util/type.js';
 
 export default async (req, res, next) => {
@@ -25,7 +23,7 @@ export default async (req, res, next) => {
     const result = await User.findOne(payload);
 
     if (!result) {
-      return res.json(commmonHelper.failure(languageHelper.unauthorizedAccess));
+      return res.json(commonHelper.failure(languageHelper.unauthorizedAccess));
     }
 
     req.jwt_id = decoded.id;
@@ -34,9 +32,9 @@ export default async (req, res, next) => {
     next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      res.json(commmonHelper.failure(err.name));
+      res.json(commonHelper.failure(err.name));
     } else {
-      res.json(commmonHelper.failure(fn.getError(err.message)));
+      res.json(commonHelper.failure(helperFn.getError(err.message)));
     }
   }
 };

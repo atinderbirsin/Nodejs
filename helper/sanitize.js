@@ -45,10 +45,25 @@ const User = (user, skipToken = true) => {
       user.access_token = undefined;
     }
   }
+
   return user;
+};
+
+const deviceAttribute = (device) => {
+  if (device) {
+    device.created_at = undefined;
+    device.updated_at = undefined;
+    device.deleted_at = undefined;
+    device.__v = undefined;
+    if (device.image && device.image !== '') {
+      device.image = process.env.IMAGE_BASE_PATH + device.image;
+    }
+  }
+  return device;
 };
 
 export default {
   User,
   admin,
+  deviceAttribute,
 };

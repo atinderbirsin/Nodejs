@@ -3,12 +3,14 @@ import app from './app.js';
 
 const PORT = process.env.PORT || 4000;
 
+// mongoose.set('runValidators', true);
+
 mongoose
   .connect(
-    process.env.DATABASE.replace(
-      '<USERNAME>',
-      process.env.DATABASE_USERNAME
-    ).replace('<PASSWORD>', process.env.DATABASE_PASSWORD),
+    process.env.DATABASE.replace('<USERNAME>', process.env.DATABASE_USERNAME).replace(
+      '<PASSWORD>',
+      process.env.DATABASE_PASSWORD
+    ),
     { autoIndex: false }
   )
   .then(() => console.log(`DATABASE connection established`))
