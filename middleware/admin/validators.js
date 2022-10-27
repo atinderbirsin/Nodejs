@@ -1,5 +1,5 @@
 import User from '../../models/user.js';
-import commmonModel from '../../models/commmon.js';
+import commonModel from '../../models/commmon.js';
 
 const alreadyExists = async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ const alreadyExists = async (req, res, next) => {
     });
 
     if (user) {
-      return res.json(commmonModel.failure('Email is already taken'));
+      return res.json(commonModel.failure('Email is already taken'));
     }
     // email check code end
 
@@ -20,14 +20,14 @@ const alreadyExists = async (req, res, next) => {
     });
 
     if (user) {
-      return res.json(commmonModel.failure('Mobile number is already taken'));
+      return res.json(commonModel.failure('Mobile number is already taken'));
     }
     // mobile number check code end
 
     next();
   } catch (err) {
     res.json(
-      commmonModel.failure(
+      commonModel.failure(
         err.message.substring(err.message.indexOf(':') + 2, err.message.length)
       )
     );

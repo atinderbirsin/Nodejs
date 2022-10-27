@@ -3,9 +3,9 @@ import validator from 'validator';
 
 const { ObjectId } = Schema;
 
-const access_token = [
+/* const access_token = [
   { type: String, trim: true, default: '', required: false },
-];
+]; */
 
 const vehicles = [
   {
@@ -114,9 +114,9 @@ const userSchema = new mongoose.Schema(
       trim: true,
       default: '',
       required: true,
-      select: false,
+      // select: false,
     },
-    access_token,
+    access_token: { type: String, trim: true, default: '', required: false },
     status: {
       type: Number,
       trim: true,
@@ -181,6 +181,20 @@ userSchema.post('save', function (doc, next) {
   next();
 }); */
 
+userSchema.index(
+  {
+    name: 'text',
+    email: 'text',
+    reference_code: 'text',
+    code: 'text',
+    dial_code: 'text',
+    mobile_number: 'text',
+  },
+  { name: 'text' }
+);
+
 const User = mongoose.model('User', userSchema);
+
+User.createIndexes();
 
 export default User;

@@ -8,7 +8,8 @@ mongoose
     process.env.DATABASE.replace(
       '<USERNAME>',
       process.env.DATABASE_USERNAME
-    ).replace('<PASSWORD>', process.env.DATABASE_PASSWORD)
+    ).replace('<PASSWORD>', process.env.DATABASE_PASSWORD),
+    { autoIndex: false }
   )
   .then(() => console.log(`DATABASE connection established`))
   .catch((err) => console.log(err.message));

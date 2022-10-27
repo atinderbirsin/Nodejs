@@ -10,6 +10,7 @@ import {
   device,
   order,
 } from '../controllers/admin/index.js';
+import auth from '../middleware/admin/auth.js';
 
 const userStorage = multer.diskStorage({
   destination: './public/user/',
@@ -33,27 +34,28 @@ const userUpload = multer({
 
 const router = express.Router();
 
-router.post('/login', account.login);
-router.post('/dashboard', account.dashboard);
+router.post('/login', userUpload.none(), account.login);
+router.post('/dashboard', userUpload.none(), account.dashboard);
 
-router.post('/office/create', userUpload.single('image'), office.create);
-router.post('/office/list', office.list);
-router.post('/office/get', office.get);
-router.post('/office/update', office.update);
-router.post('/office/delete', office.remove);
-router.post('/office/stats', office.userStats);
+router.post('/office/create', auth, userUpload.single('image'), office.create);
+router.post('/office/list', auth, userUpload.none(), office.list);
+router.post('/office/get', auth, userUpload.none(), office.get);
+router.post('/office/update', auth, userUpload.single('image'), office.update);
+router.post('/office/delete', auth, userUpload.none(), office.remove);
+router.post('/office/stats', auth, userUpload.none(), office.userStats);
 
-router.post('/technician/create', technician.create);
-router.post('/technician/list', technician.list);
-router.post('/technician/get', technician.get);
-router.post('/technician/update', technician.update);
-router.post('/technician/delete', technician.remove);
+router.post('/technician/create', auth, userUpload.single('image'), technician.create);
+router.post('/technician/list', auth, userUpload.none(), technician.list);
+router.post('/technician/get', auth, userUpload.none(), technician.get);
+router.post('/technician/update', auth, userUpload.single('image'), technician.update);
+router.post('/technician/delete', auth, userUpload.none(), technician.remove);
 
-router.post('/customer/create', customer.create);
-router.post('/customer/list', customer.list);
-router.post('/customer/get', customer.get);
-router.post('/customer/update', customer.update);
-router.post('/customer/delete', customer.remove);
+router.post('/customer/create', auth, userUpload.single('image'), customer.create);
+router.post('/customer/list', auth, userUpload.none(), customer.list);
+router.post('/customer/get', auth, userUpload.none(), customer.get);
+router.post('/customer/update', auth, userUpload.single('image'), customer.update);
+router.post('/customer/delete', auth, userUpload.none(), customer.remove);
+router.post('/customer/service', customer.service);
 
 router.post('/device-attribute/create', deviceAttribute.create);
 router.post('/device-attribute/list', deviceAttribute.list);

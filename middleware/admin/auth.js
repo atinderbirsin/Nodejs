@@ -1,13 +1,19 @@
 import jwt from 'jsonwebtoken';
+import languageHelper from '../../helper/language.js';
 import commmonHelper from '../../models/commmon.js';
 
 import User from '../../models/user.js';
+import fn from '../../util/fn.js';
 import type from '../../util/type.js';
 
 export default async (req, res, next) => {
   const token = req.headers.authorization;
 
   try {
+    if (!token) {
+      throw new Error(languageHelper.unauthorizedAccess);
+    }
+
     const tokenKey = process.env.JWT_KEY;
     const decoded = jwt.verify(token, tokenKey);
 
@@ -19,7 +25,7 @@ export default async (req, res, next) => {
     const result = await User.findOne(payload);
 
     if (!result) {
-      res.json(commmonHelper.failure('Unauthorized Access'));
+      return res.json(commmonHelper.failure(languageHelper.unauthorizedAccess));
     }
 
     req.jwt_id = decoded.id;
@@ -27,8 +33,10 @@ export default async (req, res, next) => {
 
     next();
   } catch (err) {
-    // let reply = helper.fn.reply(0, data, 'Unauthorized Access');
-    // res.send(reply);
-    // return;
+    if (err.name === 'TokenExpiredError') {
+      res.json(commmonHelper.failure(err.name));
+    } else {
+      res.json(commmonHelper.failure(fn.getError(err.message)));
+    }
   }
 };
