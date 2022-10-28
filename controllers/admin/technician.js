@@ -1,8 +1,12 @@
 import bcryptjs from 'bcryptjs';
+import path from 'path';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
 import User from '../../models/user.js';
 import { constant, type } from '../../util/index.js';
+
+const __dirname = path.resolve();
+const publicDirectoryPath = path.join(__dirname, './public');
 
 const create = async (req, res) => {
   const { password } = req.body;
@@ -109,10 +113,20 @@ const get = async (req, res) => {
 const update = async (req, res) => {
   const { id, password } = req.body;
   try {
+    const filter = {
+      _id: id,
+      deleted_at: null,
+      user_type: type.USER_TYPE.TECHNICIAN,
+    };
+
+    let user = await User.findOne(filter);
+
     if (!id) {
       throw new Error(languageHelper.userIdRequired);
     } else if (req.fileValidationError) {
       throw new Error(languageHelper.imageValidationError);
+    } else if (!user) {
+      throw new Error(languageHelper.invalidCredentials);
     }
 
     if (password) {
@@ -120,23 +134,14 @@ const update = async (req, res) => {
     }
     if (req.file) {
       req.body.image = req.file.filename;
+      helperFn.removeImage(user.image, `${publicDirectoryPath}/user/`);
     }
 
-    const filter = {
-      _id: id,
-      deleted_at: null,
-      user_type: type.USER_TYPE.TECHNICIAN,
-    };
-
-    const user = await User.findOneAndUpdate(filter, req.body, {
+    user = await User.findOneAndUpdate(filter, req.body, {
       new: true,
       runValidators: true,
       context: 'query',
     });
-
-    if (!user) {
-      throw new Error(languageHelper.invalidCredentials);
-    }
 
     res.json(commonModel.success(sanitize.User(user, true)));
   } catch (err) {

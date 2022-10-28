@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 const isEmailValid = (email) => {
   if (!email) {
     return false;
@@ -26,8 +28,20 @@ const serialNumber = (value = new Date().getTime().toString()) =>
 
 const getError = (message) => message.substring(message.indexOf(':') + 2, message.length);
 
+const removeImage = (file, path) => {
+  const full_path = path + file;
+  if (fs.existsSync(full_path)) {
+    fs.unlink(full_path, (err) => {
+      if (err) {
+        throw new Error(getError(err.message));
+      }
+    });
+  }
+};
+
 export default {
   isEmailValid,
   serialNumber,
   getError,
+  removeImage,
 };
