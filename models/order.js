@@ -59,10 +59,10 @@ const orderSchema = new mongoose.Schema({
   orderStatusLog,
   shippingStatusLog,
 
-  created_at: { type: Date, default: Date.now },
-  created_by: { type: ObjectId, default: null, required: true },
-  updated_at: { type: Date, default: null },
-  deleted_at: { type: Date, default: null },
+  created_at: { type: Date, default: Date.now, select: false },
+  created_by: { type: ObjectId, default: null, required: true, select: false },
+  updated_at: { type: Date, default: null, select: false },
+  deleted_at: { type: Date, default: null, select: false },
 });
 
 const Order = mongoose.model('Order', orderSchema);

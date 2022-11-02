@@ -8,15 +8,16 @@ dotenv.config();
 
 mongoose
   .connect(
-    process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD)
+    process.env.DATABASE.replace('<USERNAME>', process.env.DATABASE_USERNAME).replace(
+      '<PASSWORD>',
+      process.env.DATABASE_PASSWORD
+    )
   )
   .then(() => console.log(`DB connected Successfully`))
   .catch((err) => console.log(`Error : ${err.message}`));
 
 const __dirname = path.resolve();
-const users = JSON.parse(
-  fs.readFileSync(`${__dirname}/dev-data/users.json`, 'utf-8')
-);
+const users = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/users.json`, 'utf-8'));
 
 const importData = async () => {
   try {

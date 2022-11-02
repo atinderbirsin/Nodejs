@@ -1,8 +1,26 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+
+const { ObjectId } = Schema;
+
+const skuNumberAlreadyExist = async function (sku_number) {
+  // eslint-disable-next-line no-use-before-define
+  const device = await Device.findOne({ sku_number });
+  if (device) {
+    if (this.id === device.id) {
+      return true;
+    }
+    return false;
+  }
+  return true;
+};
 
 const attributes = [
   {
-    name: { type: String, trim: true, default: '' },
+    attribute_id: {
+      type: ObjectId,
+      default: null,
+      required: true,
+    },
     description: { type: String, trim: true, default: '' },
 
     created_at: { type: Date, default: Date.now, select: false },
@@ -22,8 +40,13 @@ const deviceSchema = new mongoose.Schema({
     type: String,
     trim: true,
     default: '',
-    unique: true,
     required: true,
+    validate: [
+      {
+        validator: skuNumberAlreadyExist,
+        message: 'SKU number already already taken!',
+      },
+    ],
   },
   status: {
     type: Number,
@@ -45,6 +68,20 @@ const deviceSchema = new mongoose.Schema({
   updated_at: { type: Date, default: null, required: false, select: false },
   deleted_at: { type: Date, default: null, required: false, select: false },
 });
+
+deviceSchema.pre('findOneAndUpdate', async function (next) {
+  // eslint-disable-next-line no-use-before-define
+  const device = await Device.findOne(this.getQuery());
+  this.id = device?._id.toString();
+  next();
+});
+
+/* deviceSchema.index(
+  {
+
+  },
+  { name: 'text' }
+); */
 
 const Device = mongoose.model('Device', deviceSchema);
 

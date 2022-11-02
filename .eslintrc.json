@@ -1,28 +1,36 @@
 {
-    "extends": ["airbnb", "prettier", "plugin:node/recommended"],
-    "plugins": ["prettier"],
-    "rules": {
-        "prettier/prettier": ["error", {"endOfLine": "auto",  "printWidth": 90}],
-        "spaced-comment": "off",
-        "no-console": "warn",
-        "consistent-return": "off",
-        "func-names": "off",
-        "object-shorthand": "off",
-        "no-process-exit": "off",
-        "no-param-reassign": "off",
-        "no-return-await": "off",
-        "no-underscore-dangle": "off",
-        "class-methods-use-this": "off",
-        "prefer-destructuring": ["error", {"object": true, "array": false}],
-        "import/prefer-default-export": "off",
-        "camelcase": "off",
-        "no-unused-vars": ["error", {"argsIgnorePattern": "req|res|next|val"}],
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-              "js": "always"
-            }
-         ]
-    }
+  // "parser": "babel-eslint-parser",
+  // "parserOptions": {
+  //   "sourceType": "script"
+  // },
+  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
+  "parserOptions": {
+    // Only ESLint 6.2.0 and later support ES2020.
+    "ecmaVersion": 2020
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto", "printWidth": 110 }],
+    "spaced-comment": "off",
+    "no-console": "warn",
+    "consistent-return": "off",
+    "func-names": "off",
+    "object-shorthand": "off",
+    "no-process-exit": "off",
+    "no-param-reassign": "off",
+    "no-return-await": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
+    // "import/prefer-default-export": "off",
+    "camelcase": "off",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "always"
+      }
+    ]
+  }
 }

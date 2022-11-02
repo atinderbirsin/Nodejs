@@ -30,12 +30,14 @@ const getError = (message) => message.substring(message.indexOf(':') + 2, messag
 
 const removeImage = (file, path) => {
   const full_path = path + file;
-  if (fs.existsSync(full_path)) {
-    fs.unlink(full_path, (err) => {
-      if (err) {
-        throw new Error(getError(err.message));
-      }
-    });
+  if(file) {
+    if (fs.existsSync(full_path)) {
+      fs.unlink(full_path, (err) => {
+        if (err) {
+          throw new Error(getError(err.message));
+        }
+      });
+    }
   }
 };
 

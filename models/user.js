@@ -3,10 +3,6 @@ import validator from 'validator';
 
 const { ObjectId } = Schema;
 
-/* const access_token = [
-  { type: String, trim: true, default: '', required: false },
-]; */
-
 const vehicles = [
   {
     name: {
@@ -28,7 +24,24 @@ const vehicles = [
         message: 'Status should be either active or inactive',
       },
     },
-    vehicle_number: { type: String, default: '', trim: true, required: true },
+    vehicle_number: {
+      type: String,
+      default: '',
+      trim: true,
+      required: true,
+      index: {
+        unique: true,
+        partialFilterExpression: { 'vehicles.vehicle_number': { $type: 'string' } },
+        message: 'Vehicle number already exists!',
+      },
+      set: (v) => (v === '' ? null : v),
+      /* validate: [
+        {
+          validator: vehicleNumberAlreadyExist,
+          message: 'Vehicle number already exist!',
+        },
+      ], */
+    },
     vehicle_make: { type: String, default: '', trim: true, required: true },
     vehicle_model: { type: String, default: '', trim: true, required: true },
     vehicle_color: { type: String, default: '', trim: true, required: true },
@@ -135,7 +148,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       default: '',
-      // unique: true,
       required: true,
       validate: [
         { validator: validator.isEmail, message: 'Please eneter a valid email' },
@@ -146,8 +158,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       default: '',
-      // required: true,
-      // select: false,
     },
     access_token: { type: String, trim: true, default: '', required: false },
     status: {
@@ -171,13 +181,11 @@ const userSchema = new mongoose.Schema(
       required: false,
       select: false,
     },
-    /* slug: { type: string } */
     created_at: { type: Date, default: Date, select: false, required: false },
     created_by: {
       type: ObjectId,
       default: null,
       required: false,
-      select: false,
     },
 
     updated_at: { type: Date, default: null, select: false, required: false },
@@ -203,9 +211,35 @@ userSchema.pre('save', function (next) {
 userSchema.pre('findOneAndUpdate', async function (next) {
   // eslint-disable-next-line no-use-before-define
   const user = await User.findOne(this.getQuery());
-  this.id = user._id.toString();
+  if (!user) {
+    throw new Error(' Invalid details!');
+  }
+  this.id = user?._id.toString();
   next();
 });
+
+// eslint-disable-next-line prefer-arrow-callback
+userSchema.post('findOneAndUpdate', function (error, doc, next) {
+  if (
+    error.name === 'MongoServerError' &&
+    error.code === 11000 &&
+    error.keyPattern['vehicles.vehicle_number'] === 1
+  ) {
+    throw new Error(' Vehicle number already exist!');
+  } else {
+    next();
+  }
+});
+
+/* userSchema.pre('findOneAndUpdate', async function(next) {
+  if (err) {
+    console.log(err);
+    // `return next();` will make sure the rest of this function doesn't run
+    /*return*/ // next();
+// }
+// Unless you comment out the `return` above, 'after next' will print
+// console.log('after next');
+//}); */
 
 // userSchema.pre('findOneAndUpdate', function (next) {
 //   this.options.runValidators = true;
@@ -239,7 +273,5 @@ userSchema.index(
 );
 
 const User = mongoose.model('User', userSchema);
-
-User.createIndexes();
 
 export default User;

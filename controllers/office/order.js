@@ -1,9 +1,8 @@
 import commonModel from '../../models/common.js';
 import Order from '../../models/order.js';
-import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
-import Device from '../../models/device.js';
+import { sanitize } from '../../helper/index.js';
 
-const list = async (req, res) => {
+const place = async (req, res) => {
   try {
     // EXECUTE QUERY
     // eslint-disable-next-line new-cap
@@ -41,58 +40,59 @@ const list = async (req, res) => {
       },
     ]);
 
-    const devices = orders.map((O) => sanitize.Device(O));
+    devices = orders.map((order) => sanitize.Device(order));
     const total = await Device.count(req.body);
 
-    res.json(commonModel.listSuccess(devices, total, limit));
+    res.status(200).json(commonModel.listSuccess(orders, total, limit));
   } catch (err) {
-    res.json(commonModel.failure(helperFn.getError(err.message)));
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
   }
 };
 
 const get = async (req, res) => {
-  const { id } = req.body.id;
   try {
-    if (!id) {
-      throw new Error(languageHelper.orderIdRequired);
-    }
+    const order = await Order.findById(req.body.id);
 
-    const order = await Order.findById(id);
-
-    if (!order) {
-      throw new Error(languageHelper.invalidCredentials);
-    }
-
-    res.json(commonModel.success(order));
+    res.status(200).json({
+      status: 'success',
+      data: {
+        order,
+      },
+    });
   } catch (err) {
-    res.json(commonModel.failure(helperFn.getError(err.message)));
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
   }
 };
 
 const update = async (req, res) => {
-  const { id } = req.body;
   try {
-    if (!id) {
-      throw new Error(languageHelper.orderIdRequired);
-    }
-
-    const order = await Order.findByIdAndUpdate(id, req.body, {
+    const order = await Order.findByIdAndUpdate(req.body.id, req.body, {
       new: true,
       runValidators: true,
     });
 
-    if (!order) {
-      throw new Error(languageHelper.invalidCredentials);
-    }
-
-    res.json(commonModel.success(order));
+    res.status(200).json({
+      status: 'success',
+      data: {
+        order,
+      },
+    });
   } catch (err) {
-    res.json(commonModel.failure(helperFn.getError(err.message)));
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
   }
 };
 
 export default {
-  list,
+  place,
   get,
   update,
 };

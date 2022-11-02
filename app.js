@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import adminRoutes from './routes/adminRoutes.js';
+import { adminRoutes, officeRoutes } from './routes/index.js';
 
 const app = express();
 dotenv.config();
@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use('/admin', adminRoutes);
+app.use('/office', officeRoutes);
 
 app.all('*', (req, res) => {
   res.status(404).json({

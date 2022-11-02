@@ -37,7 +37,7 @@ const deviceAttributeSchema = new mongoose.Schema({
       message: 'Status should be either active or inactive',
     },
   },
-  image: { type: String, trim: true, default: '', required: false },
+  // image: { type: String, trim: true, default: '', required: false },
 
   created_at: { type: Date, default: Date, required: false, select: false },
   updated_at: { type: Date, default: null, required: false, select: false },
@@ -59,7 +59,5 @@ deviceAttributeSchema.index(
 );
 
 const DeviceAttribute = mongoose.model('DeviceAttribute', deviceAttributeSchema);
-
-DeviceAttribute.createIndexes();
 
 export default DeviceAttribute;

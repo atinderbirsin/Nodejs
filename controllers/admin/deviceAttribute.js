@@ -1,9 +1,18 @@
+import path from 'path';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
 import DeviceAttribute from '../../models/deviceAttribute.js';
 
+const __dirname = path.resolve();
+const publicDirectoryPath = path.join(__dirname, './public');
+
 const create = async (req, res) => {
   try {
+    if (req.fileValidationError) {
+      throw new Error(languageHelper.imageValidationError);
+    }
+
+    req.body.image = req.file ? req.file.filename : '';
     const deviceAttribute = await DeviceAttribute.create(req.body);
 
     res.json(commonModel.success(sanitize.deviceAttribute(deviceAttribute)));
@@ -21,8 +30,6 @@ const list = async (req, res) => {
     order = +order || -1;
     sort = sort ? { [sort]: order } : { created_at: order };
     const search = req.body.search ? { $text: { $search: req.body.search } } : {};
-
-    console.log(search);
 
     /* EXECUTE QUERY
     // eslint-disable-next-line new-cap
@@ -93,15 +100,27 @@ const get = async (req, res) => {
 const update = async (req, res) => {
   const { id } = req.body;
   try {
-    if (!id) {
-      throw new Error(languageHelper.attributeIdRequired);
-    }
     const filter = {
       _id: id,
       deleted_at: null,
     };
 
-    const deviceAttribute = await DeviceAttribute.findOneAndUpdate(filter, req.body, {
+    let deviceAttribute = await DeviceAttribute.findOne(filter);
+
+    if (!id) {
+      throw new Error(languageHelper.attributeIdRequired);
+    } else if (req.fileValidationError) {
+      throw new Error(languageHelper.imageValidationError);
+    } else if (!deviceAttribute) {
+      throw new Error(languageHelper.invalidCredentials);
+    }
+
+    if (req.file) {
+      req.body.image = req.file.filename;
+      helperFn.removeImage(deviceAttribute.image, `${publicDirectoryPath}/device/`);
+    }
+
+    deviceAttribute = await DeviceAttribute.findOneAndUpdate(filter, req.body, {
       new: true,
       runValidators: true,
     });
