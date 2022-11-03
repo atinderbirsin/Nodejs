@@ -1,3 +1,5 @@
+import { type } from '../util/index.js';
+
 const admin = (user, skipToken = true) => {
   if (user) {
     user._id = undefined;
@@ -125,10 +127,50 @@ const CustomerVehicle = (user, skipToken) => {
   return user;
 };
 
+const orderDetails = (order) => {
+  if (order) {
+    order._id = undefined;
+  }
+  return order;
+};
+
+const orderStatusLog = (log) => {
+  if (log) {
+    log.created_at = undefined;
+    log.updated_at = undefined;
+    log.deleted_at = undefined;
+    log.order_status_text = type.ORDER_STATUS_TYPE_TEXT[log.order_status];
+  }
+  return log;
+};
+
+const shippingStatusLog = (log) => {
+  if (log) {
+    log.created_at = undefined;
+    log.updated_at = undefined;
+    log.deleted_at = undefined;
+    log.shipping_status_text = type.SHIPPING_STATUS_TYPE_TEXT[log.shipping_status];
+  }
+  return log;
+};
+
 const Order = (order) => {
   if (order) {
-    return order;
+    order.created_at = undefined;
+    order.created_by = undefined;
+    order.updated_at = undefined;
+    order.deleted_at = undefined;
+    order.__v = undefined;
+    order.order_status_text = type.ORDER_STATUS_TYPE_TEXT[order.order_status];
+    order.shipping_status_text = type.SHIPPING_STATUS_TYPE_TEXT[order.shipping_status];
+    order.order_details = order.order_details.map((o) => orderDetails(o));
+    order.order_status_log = order.order_status_log.map((log) => orderStatusLog(log));
+    order.shipping_status_log = order.shipping_status_log.map((log) => shippingStatusLog(log));
+    if (order.office) {
+      order.office = User(order.office, true);
+    }
   }
+  return order;
 };
 
 const service = (Obj) => {

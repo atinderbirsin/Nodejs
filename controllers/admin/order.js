@@ -1,34 +1,30 @@
 import commonModel from '../../models/common.js';
 import Order from '../../models/order.js';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
-import Device from '../../models/device.js';
 
 const list = async (req, res) => {
   try {
-    // EXECUTE QUERY
-    // eslint-disable-next-line new-cap
-    /* const features = new apiFeatures(Order.find(), req.body)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
-    const orders = await features.query; */
-    req.body.deleted_at = null;
     let { page, limit, sort, order } = req.body;
     limit = +limit || 10;
     page = +page || 1;
     order = +order || -1;
-    sort = sort ? { [sort]: order } : { created_at: order };
+    sort = sort ? { [sort]: order } : { order_datetime: order };
     const search = req.body.search ? { $text: { $search: req.body.search } } : {};
 
-    const orders = await Order.aggregate([
-      { $match: search },
+    let orders = await Order.aggregate([
       {
-        $match: {
-          deleted_at: {
-            $eq: null,
-          },
+        $match: search,
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'office_id',
+          foreignField: '_id',
+          as: 'office',
         },
+      },
+      {
+        $unwind: '$office',
       },
       {
         $sort: sort,
@@ -41,17 +37,16 @@ const list = async (req, res) => {
       },
     ]);
 
-    const devices = orders.map((O) => sanitize.Device(O));
-    const total = await Device.count(req.body);
+    orders = orders.map((O) => sanitize.Order(O));
 
-    res.json(commonModel.listSuccess(devices, total, limit));
+    res.json(commonModel.success(orders));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
 const get = async (req, res) => {
-  const { id } = req.body.id;
+  const { id } = req.body;
   try {
     if (!id) {
       throw new Error(languageHelper.orderIdRequired);
@@ -63,7 +58,7 @@ const get = async (req, res) => {
       throw new Error(languageHelper.invalidCredentials);
     }
 
-    res.json(commonModel.success(order));
+    res.json(commonModel.success(sanitize.Order(order)));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }

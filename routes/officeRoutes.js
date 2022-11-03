@@ -55,8 +55,9 @@ router.post('/cart/update', auth, multer.userUpload.none(), cart.add);
 router.post('/device/list', auth, multer.deviceUpload.none(), device.list);
 router.post('/device/get', auth, multer.deviceUpload.none(), device.get);
 
-router.post('/order/place', auth, order.place);
-router.post('/order/get', order.get);
-router.post('/order/update', order.update);
+router.post('/order/place', auth, multer.userUpload.none(), order.place);
+router.post('/order/list', auth, multer.userUpload.none(), order.list);
+router.post('/order/get', auth, multer.userUpload.none(), order.get);
+router.post('/order/qr-code', auth, multer.userUpload.none(), order.get);
 
 export default router;

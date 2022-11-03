@@ -1,4 +1,5 @@
 import fs from 'fs';
+import QRCode from 'qrcode';
 
 const isEmailValid = (email) => {
   if (!email) {
@@ -28,9 +29,11 @@ const serialNumber = (value = new Date().getTime().toString()) =>
 
 const getError = (message) => message.substring(message.indexOf(':') + 2, message.length);
 
+const randomNum = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
 const removeImage = (file, path) => {
   const full_path = path + file;
-  if(file) {
+  if (file) {
     if (fs.existsSync(full_path)) {
       fs.unlink(full_path, (err) => {
         if (err) {
@@ -41,9 +44,22 @@ const removeImage = (file, path) => {
   }
 };
 
+const generateQR = async function (str, name) {
+  return new Promise((res, rej) => {
+    name = name.split(' ').join('');
+    const string = JSON.stringify(str);
+    QRCode.toFile(`public/qrcode/${name}`, string, (err) => {
+      if (err) throw new Error(err.message);
+      res(true);
+    });
+  });
+};
+
 export default {
   isEmailValid,
   serialNumber,
   getError,
   removeImage,
+  randomNum,
+  generateQR,
 };

@@ -25,8 +25,9 @@ const stockDetailSchema = new mongoose.Schema({
     default: 0,
     required: [true, 'Device status is required'],
     enum: {
-      values: [0, 1, 2, 3],
-      message: 'Status should be either Activated, Deactivated, Installed, Uninstalled',
+      values: [0, 1, 2, 3, 4, 5],
+      message:
+        'Status should be either Activated, Deactivated, Installed, Uninstalled, Faulty, De-comissioned',
     },
   },
   notes: { type: String, trim: true, default: '', required: false },

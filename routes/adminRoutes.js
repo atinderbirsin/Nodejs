@@ -56,9 +56,9 @@ router.post('/device/get', auth, multer.deviceUpload.none(), device.get);
 router.post('/device/update', auth, multer.deviceUpload.single('image'), device.update);
 router.post('/device/delete', auth, multer.deviceUpload.none(), device.remove);
 
-router.post('/order/list', auth, order.list);
-router.post('/order/get', auth, order.get);
-router.post('/order/update', auth, order.update);
+router.post('/order/list', auth, multer.deviceUpload.none(), order.list);
+router.post('/order/get', auth, multer.deviceUpload.none(), order.get);
+router.post('/order/update', auth, multer.deviceUpload.none(), order.update);
 
 router.post('/stock/create', auth, multer.deviceUpload.none(), stock.create);
 router.post('/stock/list', auth, multer.deviceUpload.none(), stock.list);
