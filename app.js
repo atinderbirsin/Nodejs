@@ -19,6 +19,9 @@ const corsOrigin = {
 
 app.use(cors(corsOrigin));
 
+// for parsing application/json
+app.use(express.json());
+
 // for parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 

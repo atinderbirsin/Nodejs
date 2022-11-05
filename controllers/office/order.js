@@ -172,23 +172,24 @@ const get = async (req, res) => {
 };
 
 const update = async (req, res) => {
+  const { id } = req.body;
   try {
-    const order = await Order.findByIdAndUpdate(req.body.id, req.body, {
+    if (!id) {
+      throw new Error(languageHelper.orderIdRequired);
+    }
+
+    const order = await Order.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        order,
-      },
-    });
+    if (!order) {
+      throw new Error(languageHelper.invalidCredentials);
+    }
+
+    res.json(commonModel.success(order));
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message,
-    });
+    res.json(languageHelper.failure(helperFn.getError(err.message)));
   }
 };
 

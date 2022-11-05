@@ -59,5 +59,6 @@ router.post('/order/place', auth, multer.userUpload.none(), order.place);
 router.post('/order/list', auth, multer.userUpload.none(), order.list);
 router.post('/order/get', auth, multer.userUpload.none(), order.get);
 router.post('/order/qr-code', auth, multer.userUpload.none(), order.get);
+router.post('/order/update', auth, multer.userUpload.none(), order.update);
 
 export default router;
