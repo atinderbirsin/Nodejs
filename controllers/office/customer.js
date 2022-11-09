@@ -21,7 +21,7 @@ const create = async (req, res) => {
     req.body.user_type = type.USER_TYPE.CUSTOMER;
     req.body.image = req.file ? req.file.filename : '';
     req.body.code = helperFn.serialNumber();
-    req.body.reference_code = type.ADMIN_CODE;
+    req.body.reference_code = req.jwt_code;
     req.body.created_by = req.jwt_id;
 
     const user = await User.create(req.body);

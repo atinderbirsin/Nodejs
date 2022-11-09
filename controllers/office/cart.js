@@ -96,6 +96,10 @@ const get = async (req, res) => {
 
     items = items.map((item) => sanitize.CartItem(item));
 
+    if (items.length === 0) {
+      throw new Error(languageHelper.cartEmpty);
+    }
+
     res.json(commonModel.success(items));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));

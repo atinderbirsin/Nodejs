@@ -1,15 +1,28 @@
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
 import Device from '../../models/device.js';
-// import { type } from '../../util/index.js';
+import { type } from '../../util/index.js';
 
 const create = async (req, res) => {
+  let { attributes } = req.body;
   try {
     if (req.fileValidationError) {
       throw new Error(languageHelper.imageValidationError);
     }
 
-    const device = await Device.create(req.body);
+    if (Array.isArray(attributes)) {
+      attributes = attributes.map((attribute) => JSON.parse(attribute));
+    } else {
+      attributes = JSON.parse(attributes);
+    }
+
+    const payload = {
+      // eslint-disable-next-line node/no-unsupported-features/es-syntax
+      ...req.body,
+      attributes,
+    };
+
+    const device = await Device.create(payload);
 
     res.json(commonModel.success(sanitize.Device(device)));
   } catch (err) {
@@ -60,7 +73,7 @@ const list = async (req, res) => {
 
     res.json(commonModel.listSuccess(devices, total, limit));
   } catch (err) {
-    res.status(400).json(commonModel.failure(helperFn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
@@ -73,20 +86,32 @@ const get = async (req, res) => {
 
     const device = await Device.findById(id);
 
-    res.status(200).json(commonModel.success(sanitize.Device(device)));
+    res.json(commonModel.success(sanitize.Device(device)));
   } catch (err) {
-    res.status(400).json(commonModel.failure(helperFn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
 const update = async (req, res) => {
-  const { id } = req.body;
+  let { id, attributes } = req.body;
   try {
     if (!id) {
       throw new Error(languageHelper.deviceIdRequired);
     }
 
-    const device = await Device.findByIdAndUpdate(id, req.body, {
+    if (Array.isArray(attributes)) {
+      attributes = attributes.map((attribute) => JSON.parse(attribute));
+    } else {
+      attributes = JSON.parse(attributes);
+    }
+
+    const payload = {
+      // eslint-disable-next-line node/no-unsupported-features/es-syntax
+      ...req.body,
+      attributes,
+    };
+
+    const device = await Device.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,
     });
@@ -118,10 +143,36 @@ const remove = async (req, res) => {
   }
 };
 
+const service = async (req, res) => {
+  try {
+    const devices = await Device.aggregate([
+      {
+        $match: {
+          status: { $eq: type.STATUS_TYPE.ACTIVE },
+          deleted_at: {
+            $eq: null,
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+        },
+      },
+    ]);
+
+    res.json(commonModel.success(devices));
+  } catch (err) {
+    res.json(commonModel.failure(helperFn.getError(err.message)));
+  }
+};
+
 export default {
   create,
   list,
   get,
   update,
   remove,
+  service,
 };

@@ -1,8 +1,8 @@
+import bcryptjs from 'bcryptjs';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
 import User from '../../models/user.js';
 import { constant, type } from '../../util/index.js';
-import bcryptjs from 'bcryptjs';
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -29,7 +29,7 @@ const login = async (req, res) => {
 
     const token = commonModel.generateToken(user._id, user.user_type);
 
-    const update = { access_token: token };
+    const update = { token: token };
     const options = { new: true };
     user = await User.findByIdAndUpdate(user._id.toString(), update, options);
 

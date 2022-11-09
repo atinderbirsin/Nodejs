@@ -1,9 +1,8 @@
-import bcryptjs from 'bcryptjs';
 import path from 'path';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
 import User from '../../models/user.js';
-import { constant, type } from '../../util/index.js';
+import { type } from '../../util/index.js';
 
 const __dirname = path.resolve();
 const publicDirectoryPath = path.join(__dirname, './public');
@@ -166,6 +165,12 @@ const update = async (req, res) => {
     const values = {};
     const created_by = req.jwt_id;
 
+    let user = await User.findOne({ _id: customer_id });
+
+    if (user.created_by?.toString() !== created_by) {
+      return res.json(commonModel.failure(languageHelper.youDontHaveUpdatePermission));
+    }
+
     if (name) {
       values['vehicles.$.name'] = name;
     }
@@ -194,7 +199,7 @@ const update = async (req, res) => {
       values['vehicles.$.created_by'] = created_by;
     }
 
-    const update = { $set: values };
+    const updateValues = { $set: values };
 
     let filter = {
       'vehicles._id': id,
@@ -230,7 +235,7 @@ const update = async (req, res) => {
       'vehicles._id': id,
     };
 
-    const user = await User.findOneAndUpdate(filter, update, options);
+    user = await User.findOneAndUpdate(filter, updateValues, options);
 
     res.json(commonModel.success(sanitize.CustomerVehicle(user, true)));
   } catch (err) {
@@ -241,13 +246,17 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   const { id, customer_id } = req.body;
   try {
+    let user = await User.findOne({ _id: customer_id });
+
     if (!id) {
       throw new Error(languageHelper.userIdRequired);
     } else if (!customer_id) {
       throw new Error(languageHelper.userIdRequired);
+    } else if (user.created_by?.toString() !== req.jwt_id) {
+      return res.json(commonModel.failure(languageHelper.youDontHaveUpdatePermission));
     }
 
-    const user = await User.findOneAndUpdate(
+    user = await User.findOneAndUpdate(
       { _id: customer_id },
       { $pull: { vehicles: { _id: id } } },
       { new: true }
@@ -289,7 +298,7 @@ const service = async (req, res) => {
 const changeStatus = async (req, res) => {
   const { id, customer_id, status } = req.body;
   try {
-    let user = await User.findOne({ _id: customer_id });
+    const user = await User.findOne({ _id: customer_id });
 
     if (!customer_id) {
       throw new Error(languageHelper.userIdRequired);
@@ -307,7 +316,7 @@ const changeStatus = async (req, res) => {
       values['vehicles.$.status'] = status;
     }
 
-    const update = { $set: values };
+    const updateValues = { $set: values };
 
     const filter = {
       _id: customer_id,
@@ -318,12 +327,12 @@ const changeStatus = async (req, res) => {
     const options = {
       new: true,
       runValidators: true.valueOf,
-    }
+    };
 
-    let vehicle = await User.findOneAndUpdate(filter, update, options);
+    const vehicle = await User.findOneAndUpdate(filter, updateValues, options);
 
-    if(!vehicle) {
-      throw new Error(languageHelper.invalidCredentials)
+    if (!vehicle) {
+      throw new Error(languageHelper.invalidCredentials);
     }
 
     res.json(commonModel.success(vehicle));

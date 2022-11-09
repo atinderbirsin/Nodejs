@@ -114,7 +114,7 @@ const list = async (req, res) => {
     ]);
 
     users = users.map((user) => sanitize.User(user, true));
-    const total = await User.count(req.body);
+    const total = await users.length;
 
     res.json(commonModel.listSuccess(users, total, limit));
   } catch (err) {

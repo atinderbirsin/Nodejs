@@ -57,7 +57,7 @@ const User = (user, skipToken = true) => {
     }
     user.user_type = undefined;
     if (skipToken) {
-      user.access_token = undefined;
+      user.token = undefined;
     }
   }
 
@@ -96,7 +96,7 @@ const Vehicle = (vehicle) => {
     vehicle.deleted_at = undefined;
     vehicle.__v = undefined;
     if (vehicle.image && vehicle.image !== '') {
-      vehicle.image = `${process.env.IMAGE_BASE_PATH}customerVehicle/${vehicle.image}`;
+      vehicle.image = `${process.env.BASE_PATH}customerVehicle/${vehicle.image}`;
     }
   }
   return vehicle;
@@ -169,6 +169,15 @@ const Order = (order) => {
     if (order.office) {
       order.office = User(order.office, true);
     }
+    if (order.qrCode !== '') {
+      order.qrCode = `${process.env.BASE_PATH}qrcode/${order.qrCode}`;
+    }
+    if (order.order_status_log) {
+      order.order_status_log = order.order_status_log.map((log) => orderStatusLog(log));
+    }
+    if (order.shipping_status_log) {
+      order.shipping_status_log = order.shipping_status_log.map((log) => orderStatusLog(log));
+    }
   }
   return order;
 };
@@ -203,6 +212,16 @@ const CartItem = (item) => {
   return item;
 };
 
+const stockList = (entry) => {
+  if (entry) {
+    if (entry.stock_in >= 0 && entry.stock_out >= 0) {
+      entry.available_stock = entry.stock_in - entry.stock_out;
+    }
+  }
+
+  return entry;
+};
+
 export default {
   User,
   admin,
@@ -213,4 +232,5 @@ export default {
   service,
   CartItem,
   Order,
+  stockList,
 };

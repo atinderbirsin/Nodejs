@@ -5,6 +5,12 @@ const { ObjectId } = Schema;
 
 const orderDetails = [
   {
+    device_name: {
+      type: String,
+      trim: true,
+      default: '',
+      required: true,
+    },
     device_id: { type: ObjectId, default: null, required: true },
     sku_number: { type: String, trim: true, default: '', required: true },
     quantity: { type: Number, default: 1, trim: true, required: true },

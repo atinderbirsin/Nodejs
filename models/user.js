@@ -159,7 +159,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
-    access_token: { type: String, trim: true, default: '', required: false },
+    token: { type: String, trim: true, default: '', required: false },
     status: {
       type: Number,
       trim: true,

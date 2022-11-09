@@ -1,6 +1,7 @@
 import commonModel from '../../models/common.js';
 import Order from '../../models/order.js';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
+import { type } from '../../util/index.js';
 
 const list = async (req, res) => {
   try {
@@ -38,8 +39,8 @@ const list = async (req, res) => {
     ]);
 
     orders = orders.map((O) => sanitize.Order(O));
-
-    res.json(commonModel.success(orders));
+    const total = orders.length;
+    res.json(commonModel.listSuccess(orders, total, limit));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
@@ -52,9 +53,26 @@ const get = async (req, res) => {
       throw new Error(languageHelper.orderIdRequired);
     }
 
-    const order = await Order.findById(id);
+    let order = await Order.aggregate([
+      {
+        $match: { _id: { $eq: commonModel.toObjectId(id) } },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'office_id',
+          foreignField: '_id',
+          as: 'office',
+        },
+      },
+      {
+        $unwind: '$office',
+      },
+    ]);
 
-    if (!order) {
+    if (order.length > 0) {
+      order = order[0];
+    } else {
       throw new Error(languageHelper.invalidCredentials);
     }
 
@@ -65,22 +83,59 @@ const get = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { id } = req.body;
+  const { id, order_status, shipping_status } = req.body;
   try {
-    if (!id) {
-      throw new Error(languageHelper.orderIdRequired);
+    let order = await Order.findById(id);
+
+    if (order.order_status === type.ORDER_STATUS_TYPE.DELIVERED) {
+      throw new Error(languageHelper.invalidCredentials);
     }
 
-    const order = await Order.findByIdAndUpdate(id, req.body, {
+    if (!id) {
+      throw new Error(languageHelper.orderIdRequired);
+    } else if (!order) {
+      throw new Error(languageHelper.orderCompleted);
+    }
+
+    const order_status_log = {
+      order_status: order_status,
+      notes: `Order No: #${order.order_number} , Status changed from ${
+        type.ORDER_STATUS_TYPE_TEXT[order.order_status]
+      }
+      to ${type.ORDER_STATUS_TYPE_TEXT[order_status]}`,
+    };
+
+    const shipping_status_log = {
+      shipping_status: shipping_status,
+      notes: `Order No: #${order.order_number} , Status changed from ${
+        type.ORDER_STATUS_TYPE_TEXT[order.order_status]
+      }
+      to ${type.ORDER_STATUS_TYPE_TEXT[order_status]}`,
+    };
+
+    // { _id: person._id },
+    // { $push: { friends: friend } },
+    const updateVal = { $push: { order_status_log } };
+
+    order = await Order.findByIdAndUpdate(id, updateVal, {
       new: true,
       runValidators: true,
     });
 
-    if (!order) {
-      throw new Error(languageHelper.invalidCredentials);
-    }
-
     res.json(commonModel.success(order));
+  } catch (err) {
+    res.json(commonModel.failure(helperFn.getError(err.message)));
+  }
+};
+
+const statusType = async (req, res) => {
+  try {
+    const result = {
+      order_status_type: type.ORDER_STATUSES,
+      shipping_status_type: type.SHIPPING_STATUSES,
+    };
+
+    res.json(commonModel.success(result));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
@@ -90,4 +145,5 @@ export default {
   list,
   get,
   update,
+  statusType,
 };

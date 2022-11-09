@@ -49,16 +49,19 @@ router.post('/device-attribute/list', auth, multer.deviceUpload.none(), deviceAt
 router.post('/device-attribute/get', auth, multer.deviceUpload.none(), deviceAttribute.get);
 router.post('/device-attribute/update', auth, multer.deviceUpload.single('image'), deviceAttribute.update);
 router.post('/device-attribute/delete', auth, multer.deviceUpload.none(), deviceAttribute.remove);
+router.post('/device-attribute/service', auth, multer.deviceUpload.none(), deviceAttribute.service);
 
 router.post('/device/create', auth, multer.deviceUpload.single('image'), device.create);
 router.post('/device/list', auth, multer.deviceUpload.none(), device.list);
 router.post('/device/get', auth, multer.deviceUpload.none(), device.get);
 router.post('/device/update', auth, multer.deviceUpload.single('image'), device.update);
 router.post('/device/delete', auth, multer.deviceUpload.none(), device.remove);
+router.post('/device/service', auth, multer.deviceUpload.none(), device.service);
 
 router.post('/order/list', auth, multer.deviceUpload.none(), order.list);
 router.post('/order/get', auth, multer.deviceUpload.none(), order.get);
 router.post('/order/update', auth, multer.deviceUpload.none(), order.update);
+router.post('/order/statuses', auth, multer.deviceUpload.none(), order.statusType);
 
 router.post('/stock/create', auth, multer.deviceUpload.none(), stock.create);
 router.post('/stock/list', auth, multer.deviceUpload.none(), stock.list);

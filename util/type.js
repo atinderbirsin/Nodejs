@@ -31,6 +31,13 @@ const SHIPPING_STATUS_TYPE = {
   DELIVERY_CONFIRMED_BY_OFFICE: 4,
 };
 
+const SHIPPING_STATUSES = [
+  { id: 1, text: 'Processing' },
+  { id: 2, text: 'Dispatched' },
+  { id: 3, text: 'Arrived at destination' },
+  { id: 4, text: 'Delivery confirmed by office' },
+];
+
 const SHIPPING_STATUS_TYPE_TEXT = {
   1: 'Processing',
   2: 'Dispatched',
@@ -40,22 +47,29 @@ const SHIPPING_STATUS_TYPE_TEXT = {
 
 const ORDER_STATUS_TYPE = {
   PENDING: 1,
-  PROCESSING: 2,
-  DISPATCHED: 3,
-  DELIVERED: 4,
+  ACCEPTED: 2,
+  COMPLETED: 3,
+  REJECTED: 4,
 };
+
+const ORDER_STATUSES = [
+  { id: 1, text: 'Pending' },
+  { id: 2, text: 'Accepted' },
+  { id: 3, text: 'Completed' },
+  { id: 4, text: 'Rejected' },
+];
 
 const ORDER_STATUS_TYPE_TEXT = {
   1: 'Pending',
-  2: 'Processing',
-  3: 'Dispatched',
-  4: 'Delivered',
+  2: 'Accepted',
+  3: 'Completed',
+  4: 'Rejected',
 };
 
-const VENDOR_ID = '635ecc1ab0e262b6e7183300';
+const VENDOR_ID = '636886d7bc988a2dd4902525';
 const VENDOR_NAME = 'Ekasilam Inventory Vendor';
 const ADMIN_CODE = 'ADMIN';
-const ADMIN_ID = '635ecc1ab0e262b6e7183302';
+const ADMIN_ID = '636886d7bc988a2dd4902527';
 const ADMIN_NAME = 'Admin';
 
 export default {
@@ -72,4 +86,6 @@ export default {
   SHIPPING_STATUS_TYPE_TEXT,
   ORDER_STATUS_TYPE,
   ORDER_STATUS_TYPE_TEXT,
+  ORDER_STATUSES,
+  SHIPPING_STATUSES,
 };

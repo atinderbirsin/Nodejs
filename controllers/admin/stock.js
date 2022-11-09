@@ -1,5 +1,5 @@
 import commonModel from '../../models/common.js';
-import { helperFn, languageHelper } from '../../helper/index.js';
+import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import { type } from '../../util/index.js';
 import Stock from '../../models/stock.js';
 import StockDetail from '../../models/stockDetail.js';
@@ -83,7 +83,7 @@ const list = async (req, res) => {
       $or: [{ 'device.name': keyword }, { 'device.sku_number': keyword }],
     };
 
-    const stocks = await Stock.aggregate([
+    let stocks = await Stock.aggregate([
       {
         $match: {
           deleted_at: {
@@ -138,7 +138,7 @@ const list = async (req, res) => {
     ]);
 
     const total = stocks.length;
-
+    stocks = stocks.map((stock) => sanitize.stockList(stock));
     res.json(commonModel.listSuccess(stocks, total, limit));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
@@ -171,7 +171,6 @@ const history = async (req, res) => {
     };
 
     const stocks = await Stock.aggregate([
-      { $match: { device_id: { $eq: commonModel.toObjectId(device_id) } } },
       {
         $lookup: {
           from: 'devices',
@@ -223,6 +222,13 @@ const history = async (req, res) => {
         },
       },
       {
+        $match: {
+          device_id: { $eq: commonModel.toObjectId(device_id) },
+          deleted_at: null,
+          user_type: type.USER_TYPE.ADMIN,
+        },
+      },
+      {
         $sort: sort,
       },
       {
@@ -233,7 +239,8 @@ const history = async (req, res) => {
       },
     ]);
 
-    res.json(commonModel.success(stocks));
+    const total = stocks.length;
+    res.json(commonModel.listSuccess(stocks, total, limit));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }

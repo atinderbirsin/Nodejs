@@ -2,6 +2,7 @@ import path from 'path';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
 import DeviceAttribute from '../../models/deviceAttribute.js';
+import { type } from '../../util/index.js';
 
 const __dirname = path.resolve();
 const publicDirectoryPath = path.join(__dirname, './public');
@@ -156,10 +157,36 @@ const remove = async (req, res) => {
   }
 };
 
+const service = async (req, res) => {
+  try {
+    const attributes = await DeviceAttribute.aggregate([
+      {
+        $match: {
+          status: { $eq: type.STATUS_TYPE.ACTIVE },
+          deleted_at: {
+            $eq: null,
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+        },
+      },
+    ]);
+
+    res.json(commonModel.success(attributes));
+  } catch (err) {
+    res.json(commonModel.failure(helperFn.getError(err.message)));
+  }
+};
+
 export default {
   create,
   list,
   get,
   update,
   remove,
+  service,
 };

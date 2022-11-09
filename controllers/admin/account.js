@@ -30,7 +30,7 @@ const login = async (req, res) => {
 
     const token = commonModel.generateToken(user._id, user.user_type);
 
-    const update = { access_token: token };
+    const update = { token: token };
     const options = { new: true };
     user = await User.findByIdAndUpdate(user._id.toString(), update, options);
 

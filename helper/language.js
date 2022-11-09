@@ -24,6 +24,7 @@ export default {
   youDontHaveUpdatePermission: " You don't have update permission!",
   quantityShouldBeGreaterThanOrEqaualToOne: ' Quantity should be greater than or equal to 1',
   orderIdRequired: ' Order ID is required!',
+  orderCompleted: ' Cannot change , order has been completed!',
 
   fullNameRequired: 'Full name is required!',
   dialCodeRequired: 'Dial code is required!',

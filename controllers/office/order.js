@@ -61,16 +61,17 @@ const place = async (req, res) => {
       }
 
       if (quantity === 0) {
-        throw new Error(`${cartItems[i].device.name} is out of stock!`);
+        throw new Error(` ${cartItems[i].device.name} is out of stock!`);
       }
 
       if (quantity < cartItems[i].quantity) {
         throw new Error(
-          `Insufficient ${cartItems[i].device.name} stock, We have ${quantity} quantity in our stock`
+          ` Insufficient ${cartItems[i].device.name} stock, We have ${quantity} quantity in our stock`
         );
       }
 
       const orderDetail = {
+        device_name: cartItems[i].device.name,
         device_id: cartItems[i].device._id,
         sku_number: cartItems[i].device.sku_number,
         quantity: cartItems[i].quantity,

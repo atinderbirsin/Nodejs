@@ -76,12 +76,12 @@ deviceSchema.pre('findOneAndUpdate', async function (next) {
   next();
 });
 
-/* deviceSchema.index(
+deviceSchema.index(
   {
-
+    name: 'text',
   },
   { name: 'text' }
-); */
+);
 
 const Device = mongoose.model('Device', deviceSchema);
 
