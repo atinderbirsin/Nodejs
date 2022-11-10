@@ -1,7 +1,7 @@
 import commonModel from '../../models/common.js';
-import Order from '../../models/order.js';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import { type } from '../../util/index.js';
+import returnOrder from '../../models/returnOrder.js';
 
 const list = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ const list = async (req, res) => {
     sort = sort ? { [sort]: order } : { order_datetime: order };
     const search = req.body.search ? { $text: { $search: req.body.search } } : {};
 
-    let orders = await Order.aggregate([
+    let orders = await returnOrder.aggregate([
       {
         $match: search,
       },
@@ -38,7 +38,7 @@ const list = async (req, res) => {
       },
     ]);
 
-    orders = orders.map((O) => sanitize.Order(O));
+    orders = orders.map((O) => sanitize.returnOrder(O));
     const total = orders.length;
     res.json(commonModel.listSuccess(orders, total, limit));
   } catch (err) {
@@ -53,7 +53,7 @@ const get = async (req, res) => {
       throw new Error(languageHelper.orderIdRequired);
     }
 
-    let order = await Order.aggregate([
+    let order = await returnOrder.aggregate([
       {
         $match: { _id: { $eq: commonModel.toObjectId(id) } },
       },
@@ -76,7 +76,7 @@ const get = async (req, res) => {
       throw new Error(languageHelper.invalidCredentials);
     }
 
-    res.json(commonModel.success(sanitize.Order(order)));
+    res.json(commonModel.success(sanitize.returnOrder(order)));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
@@ -85,7 +85,7 @@ const get = async (req, res) => {
 const update = async (req, res) => {
   const { id, order_status, shipping_status, shipping_instruction, notes } = req.body;
   try {
-    let order = await Order.findById(id);
+    let order = await returnOrder.findById(id);
 
     if (Number(order_status) === type.ORDER_STATUS_TYPE.COMPLETED) {
       throw new Error(languageHelper.invalidCredentials);
@@ -123,7 +123,7 @@ const update = async (req, res) => {
       updateVal = { $set: { shipping_status, shipping_instruction, notes }, $push: { shipping_status_log } };
     }
 
-    order = await Order.findByIdAndUpdate(id, updateVal, {
+    order = await returnOrder.findByIdAndUpdate(id, updateVal, {
       new: true,
       runValidators: true,
     });

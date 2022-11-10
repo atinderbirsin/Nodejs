@@ -8,7 +8,9 @@ import {
   device,
   deviceAttribute,
   order,
+  returnOrder,
   stock,
+  setting,
 } from '../controllers/admin/index.js';
 import auth from '../middleware/admin/auth.js';
 import multer from '../middleware/admin/multer.js';
@@ -63,8 +65,16 @@ router.post('/order/get', auth, multer.deviceUpload.none(), order.get);
 router.post('/order/update', auth, multer.deviceUpload.none(), order.update);
 router.post('/order/statuses', auth, multer.deviceUpload.none(), order.statusType);
 
+router.post('/order/return/list', auth, multer.deviceUpload.none(), returnOrder.list);
+router.post('/order/return/get', auth, multer.deviceUpload.none(), returnOrder.get);
+router.post('/order/return/update', auth, multer.deviceUpload.none(), returnOrder.update);
+router.post('/order/return/statuses', auth, multer.deviceUpload.none(), returnOrder.statusType);
+
 router.post('/stock/create', auth, multer.deviceUpload.none(), stock.create);
 router.post('/stock/list', auth, multer.deviceUpload.none(), stock.list);
 router.post('/stock/history', auth, multer.deviceUpload.none(), stock.history);
+
+router.post('/setting', auth, multer.deviceUpload.none(), setting.create);
+router.post('/setting/get', auth, multer.deviceUpload.none(), setting.get);
 
 export default router;

@@ -13,7 +13,7 @@ const stockDetailSchema = new mongoose.Schema({
   order_id: { type: ObjectId, default: null, required: false },
   // admin_id: { type: ObjectId, default: null, required: false },
   // office_id: { type: ObjectId, default: null, required: false },
-  // technician_id: { type: ObjectId, default: null, required: false },
+  technician_id: { type: ObjectId, default: null, required: false },
   serial_number: { type: Number, default: null, required: false },
   user_id: { type: ObjectId, default: null, required: false },
   customer_vehicle_id: { type: ObjectId, default: null, required: false },

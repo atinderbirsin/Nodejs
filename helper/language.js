@@ -25,6 +25,7 @@ export default {
   quantityShouldBeGreaterThanOrEqaualToOne: ' Quantity should be greater than or equal to 1',
   orderIdRequired: ' Order ID is required!',
   orderCompleted: ' Cannot change , order has been completed!',
+  enoughStockPlaceRetrunOrder: ' You dont have enough stock to place return order!',
 
   fullNameRequired: 'Full name is required!',
   dialCodeRequired: 'Dial code is required!',

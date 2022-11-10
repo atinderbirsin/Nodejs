@@ -1,8 +1,14 @@
 import bcryptjs from 'bcryptjs';
+import path from 'path';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
+import Order from '../../models/order.js';
+import StockDetail from '../../models/stockDetail.js';
 import User from '../../models/user.js';
 import { constant, type } from '../../util/index.js';
+
+const __dirname = path.resolve();
+const publicDirectoryPath = path.join(__dirname, './public');
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -41,36 +47,21 @@ const login = async (req, res) => {
 
 const dashboard = async (req, res) => {
   try {
-    const stats = await User.aggregate([
-      {
-        $match: {
-          user_type: {
-            $gte: type.USER_TYPE.OFFICE,
-            $lte: type.USER_TYPE.CUSTOMER,
-          },
-          deleted_at: {
-            $eq: null,
-          },
-        },
-      },
-      {
-        $group: {
-          _id: '$user_type',
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $sort: { _id: 1 },
-      },
-      {
-        $addFields: { user_type: '$_id' },
-      },
-      {
-        $project: {
-          _id: 0,
-        },
-      },
-    ]);
+    const officeId = commonModel.toObjectId(req.jwt_id);
+
+    const devices = await StockDetail.find({ user_id: officeId, customer_vehicle_id: null });
+    const assigned_devices = await StockDetail.find({
+      user_id: officeId,
+      customer_vehicle_id: { $ne: null },
+    });
+    const orders = await Order.find({ office_id: officeId });
+
+    const stats = {
+      unassigned_devices: devices.length,
+      available_devices: devices.length,
+      assigned_devices: assigned_devices.length,
+      orders: orders.length,
+    };
 
     res.json(commonModel.success(stats));
   } catch (err) {

@@ -4,4 +4,6 @@ export { default as customer } from './customer.js';
 export { default as customerVehicle } from './customerVehicle.js';
 export { default as device } from './device.js';
 export { default as order } from './order.js';
+export { default as returnOrder } from './returnOrder.js';
 export { default as cart } from './cart.js';
+export { default as setting } from './setting.js';

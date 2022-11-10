@@ -12,10 +12,19 @@ const STATUS_TYPE = {
 };
 
 const DEVICE_STATUS_TYPE = {
-  DEACTIVATED: 0,
-  ACTIVATED: 1,
-  INSTALLED: 2,
-  UNINSTALLED: 3,
+  DEACTIVATED: 1,
+  ACTIVATED: 2,
+  INSTALLED: 3,
+  UNINSTALLED: 4,
+  DECOMISSIONED: 5,
+};
+
+const DEVICE_STATUS_TYPE_TEXT = {
+  1: 'Deactivated',
+  2: 'Activated',
+  3: 'Installed',
+  4: 'Un-installed',
+  5: 'De-comissioned',
 };
 
 const STOCK_TYPE = {
@@ -88,4 +97,5 @@ export default {
   ORDER_STATUS_TYPE_TEXT,
   ORDER_STATUSES,
   SHIPPING_STATUSES,
+  DEVICE_STATUS_TYPE_TEXT,
 };

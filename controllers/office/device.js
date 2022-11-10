@@ -1,17 +1,23 @@
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
 import Device from '../../models/device.js';
+import StockDetail from '../../models/stockDetail.js';
 // import { type } from '../../util/index.js';
 
 const list = async (req, res) => {
   try {
     req.body.deleted_at = null;
-    let { page, limit, sort, order } = req.body;
+    let { page, limit, sort, order, filter } = req.body;
     limit = +limit || 10;
     page = +page || 1;
     order = +order || -1;
     sort = sort ? { [sort]: order } : { created_at: order };
     const search = req.body.search ? { $text: { $search: req.body.search } } : {};
+    const officeId = commonModel.toObjectId(req.jwt_id);
+    const match =
+      filter === 'unassigned'
+        ? { user_id: { $eq: officeId }, customer_vehicle_id: { $eq: null } }
+        : { user_id: { $eq: officeId } };
     /* // EXECUTE QUERY
     // eslint-disable-next-line new-cap
     const features = new apiFeatures(Device.find(), req.body)
@@ -21,15 +27,34 @@ const list = async (req, res) => {
       .paginate();
     const device = await features.query; */
 
-    let devices = await Device.aggregate([
+    let devices = await StockDetail.aggregate([
       { $match: search },
+      { $match: match },
       {
-        $match: {
-          deleted_at: {
-            $eq: null,
-          },
+        $lookup: {
+          from: 'devices',
+          localField: 'device_id',
+          foreignField: '_id',
+          as: 'device',
         },
       },
+      // {
+      //   $lookup: {
+      //     from: 'users',
+      //     let: { vehicle_id: '$_id' },
+      //     pipeline: [{ $match: { $expr: { $in: ['customer_vehicle_id', '$vehicles._id'] } } }],
+      //     as: 'vehicle',
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     from: 'users.vehicles',
+      //     localField: 'customer_vehicle_id',
+      //     foreignField: '_id',
+      //     as: 'vehicle',
+      //   },
+      // },
+      { $unwind: '$device' },
       {
         $sort: sort,
       },
@@ -41,8 +66,8 @@ const list = async (req, res) => {
       },
     ]);
 
-    devices = devices.map((device) => sanitize.Device(device));
-    const total = await Device.count(req.body);
+    devices = devices.map((device) => sanitize.stockDevice(device));
+    const total = devices.length;
 
     res.json(commonModel.listSuccess(devices, total, limit));
   } catch (err) {

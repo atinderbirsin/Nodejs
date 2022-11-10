@@ -6,7 +6,9 @@ import {
   customerVehicle,
   device,
   order,
+  returnOrder,
   cart,
+  setting,
 } from '../controllers/office/index.js';
 import auth from '../middleware/office/auth.js';
 import multer from '../middleware/office/multer.js';
@@ -14,8 +16,8 @@ import multer from '../middleware/office/multer.js';
 const router = express.Router();
 
 router.post('/login', multer.userUpload.none(), account.login);
-router.post('/dashboard', multer.userUpload.none(), account.dashboard);
 router.post('/profile', auth, multer.userUpload.none(), account.get);
+router.post('/dashboard', auth, multer.userUpload.none(), account.dashboard);
 router.post('/', auth, multer.userUpload.single('image'), account.update);
 
 router.post('/technician/create', auth, multer.userUpload.single('image'), technician.create);
@@ -60,5 +62,13 @@ router.post('/order/list', auth, multer.userUpload.none(), order.list);
 router.post('/order/get', auth, multer.userUpload.none(), order.get);
 router.post('/order/qr-code', auth, multer.userUpload.none(), order.get);
 router.post('/order/update', auth, multer.userUpload.none(), order.update);
+
+router.post('/order/return/place', auth, multer.userUpload.none(), returnOrder.place);
+router.post('/order/return/list', auth, multer.userUpload.none(), returnOrder.list);
+
+router.post('/content/privacyPolicy', multer.deviceUpload.none(), setting.privacyPolicy);
+router.post('/content/termsCondition', multer.deviceUpload.none(), setting.termsCondition);
+router.post('/content/help', multer.deviceUpload.none(), setting.help);
+router.post('/content/aboutUs', multer.deviceUpload.none(), setting.aboutUs);
 
 export default router;

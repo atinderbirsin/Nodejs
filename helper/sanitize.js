@@ -182,6 +182,49 @@ const Order = (order) => {
   return order;
 };
 
+const returnOrder = (order) => {
+  if (order) {
+    order.created_at = undefined;
+    order.created_by = undefined;
+    order.updated_at = undefined;
+    order.deleted_at = undefined;
+    order.__v = undefined;
+    order.order_status_text = type.ORDER_STATUS_TYPE_TEXT[order.order_status];
+    order.order_details = orderDetails(order.order_details);
+    order.return_order_status_log = order.return_order_status_log.map((log) => orderStatusLog(log));
+    if (order.office) {
+      order.office = User(order.office, true);
+    }
+    if (order.order_status_log) {
+      order.order_status_log = order.return_order_status_log.map((log) => orderStatusLog(log));
+    }
+  }
+  return order;
+};
+
+const deviceLog = (log) => {
+  if (log) {
+    log._id = undefined;
+  }
+
+  return log;
+};
+
+const stockDevice = (d) => {
+  if (d) {
+    d.order_id = undefined;
+    d.serial_number = undefined;
+    d.__v = undefined;
+    d.created_at = undefined;
+    d.updated_at = undefined;
+    d.deleted_at = undefined;
+    d.logs = d.logs.map((log) => deviceLog(log));
+    d.device = Device(d.device);
+  }
+
+  return d;
+};
+
 const service = (Obj) => {
   if (Obj) {
     Obj.description = undefined;
@@ -232,5 +275,7 @@ export default {
   service,
   CartItem,
   Order,
+  returnOrder,
   stockList,
+  stockDevice,
 };

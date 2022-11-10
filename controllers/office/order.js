@@ -5,6 +5,7 @@ import Cart from '../../models/cart.js';
 import { type } from '../../util/index.js';
 import Stock from '../../models/stock.js';
 import User from '../../models/user.js';
+import StockDetail from '../../models/stockDetail.js';
 
 const place = async (req, res) => {
   const { shipping_instruction } = req.body;
@@ -102,6 +103,7 @@ const place = async (req, res) => {
       created_by: officeId,
       order_status: type.ORDER_STATUS_TYPE.PENDING,
       shipping_status: type.SHIPPING_STATUS_TYPE.PROCESSING,
+      shipping_instruction,
       notes: `Order No: #${order_number} , Order placed by ${office.name}`,
       order_details,
       order_status_log,
@@ -173,24 +175,146 @@ const get = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { id } = req.body;
+  const { id, shipping_status } = req.body;
   try {
+    const order = await Order.findById(id);
+    const office = await User.findById(req.jwt_id);
+
     if (!id) {
       throw new Error(languageHelper.orderIdRequired);
+    } else if (Number(shipping_status) !== type.SHIPPING_STATUS_TYPE.DELIVERY_CONFIRMED_BY_OFFICE) {
+      throw new Error(languageHelper.invalidCredentials);
+    } else if (!order) {
+      throw new Error(languageHelper.invalidCredentials);
     }
 
-    const order = await Order.findByIdAndUpdate(id, req.body, {
+    if (
+      order.order_status !== type.ORDER_STATUS_TYPE.ACCEPTED ||
+      order.shipping_status !== type.SHIPPING_STATUS_TYPE.ARRIVED_AT_DESTINATION
+    ) {
+      throw new Error(languageHelper.invalidCredentials);
+    }
+
+    const order_status_log = {
+      order_status: type.ORDER_STATUS_TYPE.COMPLETED,
+      notes: `Order No: #${order.order_number} , Status changed from ${
+        type.ORDER_STATUS_TYPE_TEXT[order.order_status]
+      }
+      to ${type.ORDER_STATUS_TYPE_TEXT[type.ORDER_STATUS_TYPE.COMPLETED]}`,
+    };
+
+    const shipping_status_log = {
+      shipping_status: shipping_status,
+      notes: `Order No: #${order.order_number} , Status changed from ${
+        type.SHIPPING_STATUS_TYPE_TEXT[order.shipping_status]
+      }
+      to ${type.SHIPPING_STATUS_TYPE_TEXT[shipping_status]}`,
+    };
+
+    const updateVal = {
+      $set: { shipping_status, order_status: type.ORDER_STATUS_TYPE.COMPLETED },
+      $push: { shipping_status_log, order_status_log },
+    };
+
+    const updatedOrder = await Order.findByIdAndUpdate(id, updateVal, {
       new: true,
       runValidators: true,
     });
 
-    if (!order) {
+    if (!updatedOrder) {
       throw new Error(languageHelper.invalidCredentials);
     }
 
-    res.json(commonModel.success(order));
+    const devices = order.order_details;
+    let i = 0;
+    let stock;
+
+    do {
+      const filter = {
+        device_id: devices[i].device_id,
+        user_id: commonModel.toObjectId(type.ADMIN_ID),
+        status: type.DEVICE_STATUS_TYPE.DEACTIVATED,
+      };
+
+      const payload = {
+        user_id: req.jwt_id,
+        order_id: order._id,
+        updated_at: new Date(),
+      };
+
+      const limit = Number(devices[i].quantity);
+
+      // eslint-disable-next-line no-await-in-loop
+      stock = await StockDetail.aggregate([{ $match: filter }, { $limit: limit }]);
+
+      let j = 0;
+      do {
+        // eslint-disable-next-line no-await-in-loop
+        await StockDetail.updateOne(filter, payload);
+
+        // out stock code start
+        let remarks = `ADMIN (${type.ADMIN_NAME}) --> OFFICE (${office.name})`;
+        const outData = {
+          stock_datetime: Date.now(),
+
+          user_id: type.ADMIN_ID, // admin
+          user_type: type.USER_TYPE.ADMIN,
+          device_id: devices[i].device_id,
+
+          stock_type: type.STOCK_TYPE.OUT, // out
+          stock_in: 0,
+          stock_return: 0,
+          stock_out: devices[i].quantity,
+          job_type: null,
+          job_status: null,
+
+          remarks: remarks,
+
+          ref_id: req.jwt_id, // office
+          ref_type: type.USER_TYPE.OFFICE,
+          order_id: order._id,
+          job_id: null,
+        };
+        // eslint-disable-next-line no-await-in-loop
+        await Stock.create(outData);
+        // out stock code end
+
+        // in stock code start
+        remarks = `ADMIN (${type.ADMIN_NAME}) --> OFFICE (${office.name})`;
+        const inData = {
+          stock_datetime: Date.now(),
+
+          user_id: req.jwt_id, // office
+          user_type: type.USER_TYPE.OFFICE, // office
+          device_id: devices[i].device_id,
+
+          stock_type: type.STOCK_TYPE.IN, // in
+          stock_out: 0,
+          stock_in: devices[i].quantity,
+          stock_return: 0,
+          job_type: null,
+          job_status: null,
+
+          remarks: remarks,
+
+          ref_id: type.ADMIN_ID, // admin
+          ref_type: type.USER_TYPE.ADMIN,
+          order_id: order._id,
+          job_id: null,
+        };
+        // eslint-disable-next-line no-await-in-loop
+        await Stock.create(inData);
+        // in stock code end
+
+        j += 1;
+      } while (j < stock.length);
+
+      i += 1;
+    } while (i < devices.length);
+
+    res.json(commonModel.success(updatedOrder));
   } catch (err) {
-    res.json(languageHelper.failure(helperFn.getError(err.message)));
+    res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
