@@ -30,6 +30,16 @@ const returnorderSchema = new mongoose.Schema({
   order_datetime: { type: Date, default: Date.now(), required: false },
   order_number: { type: String, trim: true, default: '', required: true, unique: true },
   office_id: { type: ObjectId, default: null, required: true },
+  issue_type: {
+    type: Number,
+    trim: true,
+    default: 1,
+    required: [true, 'Issue type is required'],
+    enum: {
+      values: [1, 2],
+      message: 'Issue should be either Faulty or Out of service',
+    },
+  },
   order_status: { type: Number, default: 1, trim: true, required: true },
   return_order_details: returnOrderDetails,
   return_order_status_log: returnOrderStatusLog,

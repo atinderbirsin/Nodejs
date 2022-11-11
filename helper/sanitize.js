@@ -55,7 +55,8 @@ const User = (user, skipToken = true) => {
     } else {
       user.image = `${process.env.BASE_PATH}user/user-placeholder.png`;
     }
-    user.user_type = undefined;
+    // user.user_type = undefined;
+    user.user_type_text = type.USER_TYPE_TEXT[user.user_type];
     if (skipToken) {
       user.token = undefined;
     }
@@ -189,6 +190,7 @@ const returnOrder = (order) => {
     order.updated_at = undefined;
     order.deleted_at = undefined;
     order.__v = undefined;
+    order.issue_type_text = type.DEVICE_ISSUE_TYPE_TEXT[order.issue_type];
     order.order_status_text = type.ORDER_STATUS_TYPE_TEXT[order.order_status];
     order.order_details = orderDetails(order.order_details);
     order.return_order_status_log = order.return_order_status_log.map((log) => orderStatusLog(log));
@@ -265,6 +267,27 @@ const stockList = (entry) => {
   return entry;
 };
 
+const stockItem = (device) => {
+  if (device) {
+    device.order_id = undefined;
+    device.technician_id = undefined;
+    device.customer_id = undefined;
+    // device.serial_number = undefined;
+    device.customer_vehicle_id = undefined;
+    device.job_id = undefined;
+    device.status_text = type.DEVICE_STATUS_TYPE_TEXT[device.status];
+    device.__v = undefined;
+    device.created_at = undefined;
+    device.updated_at = undefined;
+    device.deleted_at = undefined;
+    device.logs = device.logs.map((log) => deviceLog(log));
+    device.device = Device(device.device);
+    device.user = User(device.user);
+  }
+
+  return device;
+};
+
 export default {
   User,
   admin,
@@ -278,4 +301,5 @@ export default {
   returnOrder,
   stockList,
   stockDevice,
+  stockItem,
 };

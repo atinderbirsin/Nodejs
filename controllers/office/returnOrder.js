@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import commonModel from '../../models/common.js';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import User from '../../models/user.js';
@@ -22,7 +23,7 @@ const place = async (req, res) => {
 
     const officeId = req.jwt_id;
 
-    const availableQuantity = (
+    let availableQuantity = (
       await StockDetail.find({
         user_id: officeId,
         device_id,
@@ -31,8 +32,23 @@ const place = async (req, res) => {
       })
     ).length;
 
+    let returnOrderPlacedQuantity = 0;
+
+    const returnOrdersPlaced = await returnOrder.find({
+      office_id: req.jwt_id,
+      device_id,
+    });
+
+    if (returnOrdersPlaced.length > 0) {
+      returnOrdersPlaced.forEach(function (order) {
+        returnOrderPlacedQuantity += order.return_order_details.quantity;
+      });
+    }
+
+    availableQuantity -= returnOrderPlacedQuantity;
+
     if (availableQuantity < quantity || availableQuantity === 0) {
-      throw new Error(languageHelper.enoughStockPlaceRetrunOrder);
+      throw new Error(languageHelper.notEnoughStockPlaceRetrunOrder);
     }
 
     const order_number = helperFn.serialNumber();
@@ -114,7 +130,7 @@ const get = async (req, res) => {
       throw new Error(languageHelper.invalidCredentials);
     }
 
-    res.json(commonModel.success(sanitize.Order(order)));
+    res.json(commonModel.success(sanitize.returnOrder(order)));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }

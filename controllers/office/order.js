@@ -182,6 +182,8 @@ const update = async (req, res) => {
 
     if (!id) {
       throw new Error(languageHelper.orderIdRequired);
+    } else if (!shipping_status) {
+      throw new Error(languageHelper.shippingStatusRequired);
     } else if (Number(shipping_status) !== type.SHIPPING_STATUS_TYPE.DELIVERY_CONFIRMED_BY_OFFICE) {
       throw new Error(languageHelper.invalidCredentials);
     } else if (!order) {
@@ -247,64 +249,64 @@ const update = async (req, res) => {
       // eslint-disable-next-line no-await-in-loop
       stock = await StockDetail.aggregate([{ $match: filter }, { $limit: limit }]);
 
+      // out stock code start
+      let remarks = `ADMIN (${type.ADMIN_NAME}) --> OFFICE (${office.name})`;
+      const outData = {
+        stock_datetime: Date.now(),
+
+        user_id: type.ADMIN_ID, // admin
+        user_type: type.USER_TYPE.ADMIN,
+        device_id: devices[i].device_id,
+
+        stock_type: type.STOCK_TYPE.OUT, // out
+        stock_in: 0,
+        stock_return: 0,
+        stock_out: devices[i].quantity,
+        job_type: null,
+        job_status: null,
+
+        remarks: remarks,
+
+        ref_id: req.jwt_id, // office
+        ref_type: type.USER_TYPE.OFFICE,
+        order_id: order._id,
+        job_id: null,
+      };
+      // eslint-disable-next-line no-await-in-loop
+      await Stock.create(outData);
+      // out stock code end
+
+      // in stock code start
+      remarks = `ADMIN (${type.ADMIN_NAME}) --> OFFICE (${office.name})`;
+      const inData = {
+        stock_datetime: Date.now(),
+
+        user_id: req.jwt_id, // office
+        user_type: type.USER_TYPE.OFFICE, // office
+        device_id: devices[i].device_id,
+
+        stock_type: type.STOCK_TYPE.IN, // in
+        stock_out: 0,
+        stock_in: devices[i].quantity,
+        stock_return: 0,
+        job_type: null,
+        job_status: null,
+
+        remarks: remarks,
+
+        ref_id: type.ADMIN_ID, // admin
+        ref_type: type.USER_TYPE.ADMIN,
+        order_id: order._id,
+        job_id: null,
+      };
+      // eslint-disable-next-line no-await-in-loop
+      await Stock.create(inData);
+      // in stock code end
+
       let j = 0;
       do {
         // eslint-disable-next-line no-await-in-loop
         await StockDetail.updateOne(filter, payload);
-
-        // out stock code start
-        let remarks = `ADMIN (${type.ADMIN_NAME}) --> OFFICE (${office.name})`;
-        const outData = {
-          stock_datetime: Date.now(),
-
-          user_id: type.ADMIN_ID, // admin
-          user_type: type.USER_TYPE.ADMIN,
-          device_id: devices[i].device_id,
-
-          stock_type: type.STOCK_TYPE.OUT, // out
-          stock_in: 0,
-          stock_return: 0,
-          stock_out: devices[i].quantity,
-          job_type: null,
-          job_status: null,
-
-          remarks: remarks,
-
-          ref_id: req.jwt_id, // office
-          ref_type: type.USER_TYPE.OFFICE,
-          order_id: order._id,
-          job_id: null,
-        };
-        // eslint-disable-next-line no-await-in-loop
-        await Stock.create(outData);
-        // out stock code end
-
-        // in stock code start
-        remarks = `ADMIN (${type.ADMIN_NAME}) --> OFFICE (${office.name})`;
-        const inData = {
-          stock_datetime: Date.now(),
-
-          user_id: req.jwt_id, // office
-          user_type: type.USER_TYPE.OFFICE, // office
-          device_id: devices[i].device_id,
-
-          stock_type: type.STOCK_TYPE.IN, // in
-          stock_out: 0,
-          stock_in: devices[i].quantity,
-          stock_return: 0,
-          job_type: null,
-          job_status: null,
-
-          remarks: remarks,
-
-          ref_id: type.ADMIN_ID, // admin
-          ref_type: type.USER_TYPE.ADMIN,
-          order_id: order._id,
-          job_id: null,
-        };
-        // eslint-disable-next-line no-await-in-loop
-        await Stock.create(inData);
-        // in stock code end
 
         j += 1;
       } while (j < stock.length);

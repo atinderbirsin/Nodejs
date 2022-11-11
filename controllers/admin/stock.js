@@ -158,7 +158,7 @@ const history = async (req, res) => {
     limit = +limit || 10;
     page = +page || 1;
     order = +order || -1;
-    sort = sort ? { [sort]: order } : { created_at: order };
+    sort = sort ? { [sort]: order } : { stock_datetime: order };
     const keyword = { $regex: req.body.search || '' };
     const search = {
       $or: [

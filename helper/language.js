@@ -1,4 +1,5 @@
 export default {
+  idIsRequired: ' Id is required!',
   unauthorizedAccess: ' Unauthorized access!',
   InvalidToken: ' Inavlid token!',
   invalidEmailAddress: ' Invalid email address!',
@@ -24,8 +25,9 @@ export default {
   youDontHaveUpdatePermission: " You don't have update permission!",
   quantityShouldBeGreaterThanOrEqaualToOne: ' Quantity should be greater than or equal to 1',
   orderIdRequired: ' Order ID is required!',
-  orderCompleted: ' Cannot change , order has been completed!',
-  enoughStockPlaceRetrunOrder: ' You dont have enough stock to place return order!',
+  orderCompleted: ' Cannot update , order has been completed!',
+  notEnoughStockPlaceRetrunOrder: " You don't have enough stock to place return order!",
+  shippingStatusRequired: ' Shipping status is required!',
 
   fullNameRequired: 'Full name is required!',
   dialCodeRequired: 'Dial code is required!',

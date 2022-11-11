@@ -10,6 +10,7 @@ import {
   order,
   returnOrder,
   stock,
+  stockConfigure,
   setting,
 } from '../controllers/admin/index.js';
 import auth from '../middleware/admin/auth.js';
@@ -73,6 +74,9 @@ router.post('/order/return/statuses', auth, multer.deviceUpload.none(), returnOr
 router.post('/stock/create', auth, multer.deviceUpload.none(), stock.create);
 router.post('/stock/list', auth, multer.deviceUpload.none(), stock.list);
 router.post('/stock/history', auth, multer.deviceUpload.none(), stock.history);
+router.post('/stock/configure/list', auth, multer.deviceUpload.none(), stockConfigure.list);
+router.post('/stock/configure/get', auth, multer.deviceUpload.none(), stockConfigure.get);
+router.post('/stock/configure/update', auth, multer.deviceUpload.none(), stockConfigure.update);
 
 router.post('/setting', auth, multer.deviceUpload.none(), setting.create);
 router.post('/setting/get', auth, multer.deviceUpload.none(), setting.get);

@@ -6,6 +6,14 @@ const USER_TYPE = {
   VENDOR: 5,
 };
 
+const USER_TYPE_TEXT = {
+  1: 'Admin',
+  2: 'Office',
+  3: 'Technician',
+  4: 'Customer',
+  5: 'Vendor',
+};
+
 const STATUS_TYPE = {
   INACTIVE: 0,
   ACTIVE: 1,
@@ -25,6 +33,16 @@ const DEVICE_STATUS_TYPE_TEXT = {
   3: 'Installed',
   4: 'Un-installed',
   5: 'De-comissioned',
+};
+
+const DEVICE_ISSUE_TYPE = {
+  FAULTY: 1,
+  OUT_OF_SERVICE: 2,
+};
+
+const DEVICE_ISSUE_TYPE_TEXT = {
+  1: 'Faulty',
+  2: 'Out of service',
 };
 
 const STOCK_TYPE = {
@@ -83,6 +101,7 @@ const ADMIN_NAME = 'Admin';
 
 export default {
   USER_TYPE,
+  USER_TYPE_TEXT,
   ADMIN_CODE,
   STATUS_TYPE,
   VENDOR_ID,
@@ -98,4 +117,6 @@ export default {
   ORDER_STATUSES,
   SHIPPING_STATUSES,
   DEVICE_STATUS_TYPE_TEXT,
+  DEVICE_ISSUE_TYPE,
+  DEVICE_ISSUE_TYPE_TEXT,
 };

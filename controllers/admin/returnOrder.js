@@ -91,6 +91,8 @@ const update = async (req, res) => {
       throw new Error(languageHelper.invalidCredentials);
     } else if (Number(shipping_status) === type.SHIPPING_STATUS_TYPE.DELIVERY_CONFIRMED_BY_OFFICE) {
       throw new Error(languageHelper.invalidCredentials);
+    } else if (Number(order.order_status) === type.ORDER_STATUS_TYPE.COMPLETED) {
+      throw new Error(languageHelper.orderCompleted);
     }
 
     if (!id) {
@@ -138,7 +140,6 @@ const statusType = async (req, res) => {
   try {
     const result = {
       order_status_type: type.ORDER_STATUSES,
-      shipping_status_type: type.SHIPPING_STATUSES,
     };
 
     res.json(commonModel.success(result));
