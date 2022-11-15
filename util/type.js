@@ -93,6 +93,42 @@ const ORDER_STATUS_TYPE_TEXT = {
   4: 'Rejected',
 };
 
+const JOB_STATUS_TYPE = {
+  ASSIGNED: 1, // (to be updated by office / admin only)
+  ACCEPTED: 2,
+  REJECTED: 3,
+  CANCELED: 4, // (to be updated by office / admin only)
+  DEPARTED_FOR_JOB_LOCATION: 5,
+  ARRIVED_AT_JOB_LOCATION: 6,
+  STARTED_JOB: 7,
+  COMPLETED: 8,
+  CLOSED: 9,
+};
+
+const JOB_STATUS_TYPE_TEXT = {
+  1: 'Assigned', // (to be updated by office / admin only)
+  2: 'Accepted',
+  3: 'Rejected',
+  4: 'Canceled', // (to be updated by office / admin only)
+  5: 'Departed for job location',
+  6: 'Arrived at job location',
+  7: 'Started job',
+  8: 'Completed',
+  9: 'Closed',
+};
+
+const JOB_TYPE = {
+  INSTALLATION: 1,
+  UNINSTALLATION: 2,
+  INSPECTION: 3,
+};
+
+const JOB_TYPE_TEXT = {
+  1: 'Installation',
+  2: 'Un-installation',
+  3: 'Inspection',
+};
+
 const VENDOR_ID = '636886d7bc988a2dd4902525';
 const VENDOR_NAME = 'Ekasilam Inventory Vendor';
 const ADMIN_CODE = 'ADMIN';
@@ -119,4 +155,8 @@ export default {
   DEVICE_STATUS_TYPE_TEXT,
   DEVICE_ISSUE_TYPE,
   DEVICE_ISSUE_TYPE_TEXT,
+  JOB_STATUS_TYPE_TEXT,
+  JOB_STATUS_TYPE,
+  JOB_TYPE,
+  JOB_TYPE_TEXT,
 };

@@ -1,34 +1,111 @@
-import bcryptjs from 'bcryptjs';
 import path from 'path';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import commonModel from '../../models/common.js';
+import Device from '../../models/device.js';
+import Job from '../../models/job.js';
+import StockDetail from '../../models/stockDetail.js';
 import User from '../../models/user.js';
-import { constant, type } from '../../util/index.js';
+import { type as types } from '../../util/index.js';
 
 const __dirname = path.resolve();
 const publicDirectoryPath = path.join(__dirname, './public');
 
 const create = async (req, res) => {
-  const { password } = req.body;
+  const {
+    technician_id,
+    customer_id,
+    customer_vehicle_id,
+    device_id,
+    deadline_date,
+    type,
+    title,
+    description,
+  } = req.body;
   try {
-    if (req.fileValidationError) {
-      throw new Error(languageHelper.imageValidationError);
-    } else if (!password || password.trim().length <= 0) {
-      throw new Error(languageHelper.passwordRequired);
+    if (!technician_id) {
+      throw new Error(languageHelper.technicianIdRequired);
+    } else if (!customer_id) {
+      throw new Error(languageHelper.customerIdRequired);
+    } else if (!customer_vehicle_id) {
+      throw new Error(languageHelper.vehicleIdRequired);
+    } else if (!device_id) {
+      throw new Error(languageHelper.deviceIdRequired);
+    } else if (!deadline_date) {
+      throw new Error(languageHelper.daedlineDateIsRequired);
+    } else if (!type) {
+      throw new Error(languageHelper.jobTypeIsRequired);
+    } else if (!title) {
+      throw new Error(languageHelper.jobTitleIsRequired);
+    } else if (!description) {
+      throw new Error(languageHelper.jobDescriptionIsRequired);
     }
 
-    req.body.password = await bcryptjs.hash(req.body.password, constant.hashLength);
-    req.body.user_type = type.USER_TYPE.CUSTOMER;
-    req.body.image = req.file ? req.file.filename : '';
-    req.body.code = helperFn.serialNumber();
-    req.body.reference_code = req.jwt_code;
-    req.body.created_by = req.jwt_id;
+    const office = await User.findOne({ _id: req.jwt_id, user_type: types.USER_TYPE.OFFICE });
+    const technician = await User.findOne({ _id: technician_id, user_type: types.USER_TYPE.TECHNICIAN });
+    const customer = await User.findOne({ _id: customer_id, user_type: types.USER_TYPE.CUSTOMER });
+    let customerVehicle = await User.find(
+      { 'vehicles._id': customer_vehicle_id },
+      { _id: 0, vehicles: { $elemMatch: { _id: customer_vehicle_id } } }
+    );
+    const device = await Device.findById(device_id);
+    customerVehicle = customerVehicle[0].vehicles[0];
 
-    const user = await User.create(req.body);
+    const availableDevicesQuantityPayload = {
+      device_id,
+      user_id: req.jwt_id,
+      technician_id: null,
+      customer_id: null,
+      customer_vehicle_id: null,
+      status: types.DEVICE_STATUS_TYPE.DEACTIVATED,
+      serial_number: { $ne: null },
+    };
 
-    user.jwt_id = req.jwt_id;
+    const availableDevicesQuantity = await StockDetail.find(availableDevicesQuantityPayload);
 
-    res.json(commonModel.success(sanitize.User(user, true)));
+    if (!technician || !customer || !customerVehicle || !device) {
+      throw new Error(languageHelper.invalidCredentials);
+    } else if (type !== types.JOB_TYPE.UNINSTALLATION && availableDevicesQuantity.length === 0) {
+      throw new Error(languageHelper.dontHaveEnoughQuantityToAssignJob);
+    }
+
+    if (technician.status !== types.STATUS_TYPE.ACTIVE) {
+      throw new Error(languageHelper.cannotAssignJobTechnicianIsInactive);
+    } else if (customer.status !== types.STATUS_TYPE.ACTIVE) {
+      throw new Error(languageHelper.cannotAssignJobCustomerIsInactive);
+    } else if (customerVehicle.status !== types.STATUS_TYPE.ACTIVE) {
+      throw new Error(languageHelper.cannotAssignJobCustomerVehicleIsInactive);
+    } else if (req.fileValidationError) {
+      throw new Error(languageHelper.imageValidationError);
+    }
+
+    const serial_number = helperFn.serialNumber();
+    const notes = `job created by ${office.name} for technician ${technician.name}`;
+    const images = [];
+
+    req.files.forEach((img) => images.push({ img: img.filename }));
+
+    const payload = {
+      office_id: req.jwt_id,
+      sr_no: serial_number,
+      technician_id: technician_id,
+      device_id: device_id,
+      customer_id: customer_id,
+      customer_vehicle_id: customer_vehicle_id,
+      deadline_date: new Date(deadline_date),
+      type: type,
+      status: types.JOB_STATUS_TYPE.ASSIGNED,
+      title: title,
+      description: description,
+      images,
+      logs: {
+        notes,
+        status: types.JOB_STATUS_TYPE.ASSIGNED,
+      },
+    };
+
+    const job = await Job.create(payload);
+
+    res.json(commonModel.success(sanitize.Job(job)));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
@@ -44,15 +121,6 @@ const list = async (req, res) => {
     order = +order || -1;
     sort = sort ? { [sort]: order } : { created_at: order };
     const search = req.body.search ? { $text: { $search: req.body.search } } : {};
-
-    // EXECUTE QUERY
-    // eslint-disable-next-line new-cap
-    /* const features = new apiFeatures(User.find(), req.body)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
-    let users = await features.query; */
 
     let users = await User.aggregate([
       {
@@ -118,7 +186,7 @@ const get = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { id, password } = req.body;
+  const { id } = req.body;
   try {
     const filter = {
       _id: id,
@@ -138,9 +206,6 @@ const update = async (req, res) => {
       throw new Error(languageHelper.youDontHaveUpdatePermission);
     }
 
-    if (password) {
-      req.body.password = await bcryptjs.hash(password, constant.hashLength);
-    }
     if (req.file) {
       req.body.image = req.file.filename;
       helperFn.removeImage(user.image, `${publicDirectoryPath}/user/`);

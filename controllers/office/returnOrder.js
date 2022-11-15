@@ -36,6 +36,7 @@ const place = async (req, res) => {
 
     const returnOrdersPlaced = await returnOrder.find({
       office_id: req.jwt_id,
+      order_status: type.ORDER_STATUS_TYPE.PENDING,
       device_id,
     });
 

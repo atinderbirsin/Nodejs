@@ -6,4 +6,5 @@ export { default as device } from './device.js';
 export { default as order } from './order.js';
 export { default as returnOrder } from './returnOrder.js';
 export { default as cart } from './cart.js';
+export { default as job } from './job.js';
 export { default as setting } from './setting.js';

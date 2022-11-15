@@ -61,8 +61,29 @@ const vehicleUpload = multer({
   },
 });
 
+const jobStorage = multer.diskStorage({
+  destination: './public/job/',
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const jobUpload = multer({
+  storage: jobStorage,
+  fileFilter: function (req, file, cb) {
+    const types = ['image/*'];
+    if (types.indexOf(file.mimetype) !== -1) {
+      cb(null, true);
+    } else {
+      req.fileValidationError = 'Image must be of valid format';
+      cb(null, false, req.fileValidationError); // false case not match
+    }
+  },
+});
+
 export default {
   userUpload,
   deviceUpload,
   vehicleUpload,
+  jobUpload,
 };

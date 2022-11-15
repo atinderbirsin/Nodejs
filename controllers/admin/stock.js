@@ -65,6 +65,7 @@ const create = async (req, res) => {
 
     res.json(commonModel.success());
   } catch (err) {
+    console.log(err);
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };

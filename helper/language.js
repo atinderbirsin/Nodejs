@@ -28,6 +28,18 @@ export default {
   orderCompleted: ' Cannot update , order has been completed!',
   notEnoughStockPlaceRetrunOrder: " You don't have enough stock to place return order!",
   shippingStatusRequired: ' Shipping status is required!',
+  devicesNotConfigured: ' Cannot update! devices has not been configured yet!',
+  technicianIdRequired: ' Technician id is required!',
+  customerIdRequired: ' Customer id is required!',
+  cannotAssignJobTechnicianIsInactive: ' Cannot assign job because technician is currently inactive!',
+  cannotAssignJobCustomerIsInactive: ' Cannot assign job because customer is currently inactive!',
+  cannotAssignJobCustomerVehicleIsInactive:
+    ' Cannot assign job because customer vehicle is currently inactive!',
+  daedlineDateIsRequired: ' Deadline date is required!',
+  jobTypeIsRequired: ' Job type is required!',
+  jobTitleIsRequired: ' Job title is required!',
+  jobDescriptionIsRequired: ' Job description is required!',
+  dontHaveEnoughQuantityToAssignJob: ' You dont have enough devices available to assign job!',
 
   fullNameRequired: 'Full name is required!',
   dialCodeRequired: 'Dial code is required!',

@@ -15,7 +15,7 @@ const stockDetailSchema = new mongoose.Schema({
   // office_id: { type: ObjectId, default: null, required: false },
   technician_id: { type: ObjectId, default: null, required: false },
   customer_id: { type: ObjectId, default: null, required: false },
-  serial_number: { type: String, default: null, unique: true, required: false },
+  serial_number: { type: String, unique: true, required: false, sparse: true },
   user_id: { type: ObjectId, default: null, required: false },
   customer_vehicle_id: { type: ObjectId, default: null, required: false },
   device_id: { type: ObjectId, default: null, required: false },

@@ -2,6 +2,7 @@ import commonModel from '../../models/common.js';
 import Order from '../../models/order.js';
 import { helperFn, languageHelper, sanitize } from '../../helper/index.js';
 import { type } from '../../util/index.js';
+import StockDetail from '../../models/stockDetail.js';
 
 const list = async (req, res) => {
   try {
@@ -97,6 +98,45 @@ const update = async (req, res) => {
       throw new Error(languageHelper.orderIdRequired);
     } else if (!order) {
       throw new Error(languageHelper.invalidCredentials);
+    }
+
+    const devices = [];
+    let stockDevices;
+    let quantity = 0;
+
+    if (order_status) {
+      if (Number(order_status) === type.ORDER_STATUS_TYPE.ACCEPTED) {
+        order.order_details.forEach((device) => {
+          devices.push(device.device_id);
+          quantity += device.quantity;
+        });
+
+        let i = 0;
+
+        do {
+          const filter = {
+            device_id: commonModel.toObjectId(devices[i]),
+            user_id: commonModel.toObjectId(type.ADMIN_ID),
+            technician_id: null,
+            customer_id: null,
+            customer_vehicle_id: null,
+            serial_number: { $ne: null },
+          };
+
+          // eslint-disable-next-line no-await-in-loop
+          stockDevices = await StockDetail.aggregate([
+            {
+              $match: filter,
+            },
+          ]);
+
+          i += 1;
+        } while (i < devices.length);
+      }
+
+      if (stockDevices.length === 0 || stockDevices.length < quantity) {
+        throw new Error(languageHelper.devicesNotConfigured);
+      }
     }
 
     const order_status_log = {

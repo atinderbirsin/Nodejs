@@ -288,6 +288,33 @@ const stockItem = (device) => {
   return device;
 };
 
+const JobLogs = (log) => {
+  if (log) {
+    log.status = type.JOB_STATUS_TYPE_TEXT[log.status];
+    log.service_images = log.service_images.map((i) => `${process.env.BASE_PATH}job/${i.img}`);
+    log.created_at = undefined;
+  }
+
+  return log;
+};
+
+const Job = (job) => {
+  if (job) {
+    job.type = type.JOB_TYPE_TEXT[job.type];
+    job.status = type.JOB_STATUS_TYPE_TEXT[job.status];
+    job.quantity = undefined;
+    job.qrCode = `${process.env.BASE_PATH}job/${job.qrCode}`;
+    job.images = job.images.map((i) => `${process.env.BASE_PATH}job/${i.img}`);
+    job.logs = job.logs.map((log) => JobLogs(log));
+    job.created_at = undefined;
+    job.updated_at = undefined;
+    job.deleted_at = undefined;
+    job.__v = undefined;
+  }
+
+  return job;
+};
+
 export default {
   User,
   admin,
@@ -302,4 +329,5 @@ export default {
   stockList,
   stockDevice,
   stockItem,
+  Job,
 };

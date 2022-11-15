@@ -305,6 +305,8 @@ const update = async (req, res) => {
 
       let j = 0;
       do {
+        filter.serial_number = { $ne: null };
+
         // eslint-disable-next-line no-await-in-loop
         await StockDetail.updateOne(filter, payload);
 
