@@ -40,6 +40,7 @@ export default {
   jobTitleIsRequired: ' Job title is required!',
   jobDescriptionIsRequired: ' Job description is required!',
   dontHaveEnoughQuantityToAssignJob: ' You dont have enough devices available to assign job!',
+  jobIdRequired: ' Job id is required!',
 
   fullNameRequired: 'Full name is required!',
   dialCodeRequired: 'Dial code is required!',

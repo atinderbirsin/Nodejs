@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import { helperFn } from '../helper/index.js';
 
 const { ObjectId } = Schema;
 
@@ -51,7 +50,6 @@ const jobSchema = new mongoose.Schema({
   quantity: { type: Number, trim: true, default: 1, required: false },
   title: { type: String, trim: true, default: '', required: [true, 'Title is required!'] },
   description: { type: String, trim: true, default: '', required: [true, 'Description is required!'] },
-  qrCode: { type: String, trim: true, default: '', required: false },
   images,
 
   logs,
@@ -59,12 +57,6 @@ const jobSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now, required: false, select: false },
   updated_at: { type: Date, default: null, required: false, select: false },
   deleted_at: { type: Date, default: null, required: false, select: false },
-});
-
-jobSchema.pre('save', async function () {
-  const qrCode = `${Date.now() + Math.floor(helperFn.randomNum(100, 5000))}.png`;
-  helperFn.generateQR(this._id.toString(), qrCode);
-  this.set({ qrCode });
 });
 
 const Job = mongoose.model('Job', jobSchema);

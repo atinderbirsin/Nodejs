@@ -71,7 +71,7 @@ const jobStorage = multer.diskStorage({
 const jobUpload = multer({
   storage: jobStorage,
   fileFilter: function (req, file, cb) {
-    const types = ['image/*'];
+    const types = ['image/jpeg', 'image/JPEG', 'image/jpg', 'image/png', 'image/webp'];
     if (types.indexOf(file.mimetype) !== -1) {
       cb(null, true);
     } else {

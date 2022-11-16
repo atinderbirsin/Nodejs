@@ -69,7 +69,7 @@ const orderSchema = new mongoose.Schema({
 // eslint-disable-next-line prefer-arrow-callback
 orderSchema.pre('save', async function () {
   const qrCode = `${Date.now() + Math.floor(helperFn.randomNum(100, 5000))}.png`;
-  helperFn.generateQR(this._id.toString(), qrCode);
+  helperFn.generateQR(this._id.toString(), qrCode, 'qrcode');
   this.set({ qrCode });
 });
 

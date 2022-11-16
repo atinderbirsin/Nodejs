@@ -19,6 +19,11 @@ const STATUS_TYPE = {
   ACTIVE: 1,
 };
 
+const STATUS_TYPE_TEXT = {
+  0: 'In-active',
+  1: 'Active',
+};
+
 const DEVICE_STATUS_TYPE = {
   DEACTIVATED: 1,
   ACTIVATED: 2,
@@ -140,6 +145,7 @@ export default {
   USER_TYPE_TEXT,
   ADMIN_CODE,
   STATUS_TYPE,
+  STATUS_TYPE_TEXT,
   VENDOR_ID,
   VENDOR_NAME,
   ADMIN_ID,

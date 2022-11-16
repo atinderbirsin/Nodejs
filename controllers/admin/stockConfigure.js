@@ -99,6 +99,43 @@ const get = async (req, res) => {
         },
       },
       { $unwind: '$user' },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'technician_id',
+          foreignField: '_id',
+          as: 'technician',
+        },
+      },
+      { $unwind: { path: '$technician', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'customer_id',
+          foreignField: '_id',
+          as: 'customer',
+        },
+      },
+      { $unwind: { path: '$customer', preserveNullAndEmptyArrays: true } },
+      {
+        // find a vehicle, that matches
+        // to a customer
+        $addFields: {
+          vehicle: {
+            $arrayElemAt: [
+              {
+                $filter: {
+                  input: '$customer.vehicles',
+                  cond: {
+                    $eq: ['$$this._id', '$customer_vehicle_id'],
+                  },
+                },
+              },
+              0,
+            ],
+          },
+        },
+      },
     ]);
 
     if (device.length > 0) {
@@ -107,6 +144,7 @@ const get = async (req, res) => {
 
     res.json(commonModel.success(sanitize.stockItem(device)));
   } catch (err) {
+    console.log(err);
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };

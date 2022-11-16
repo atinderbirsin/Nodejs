@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import { helperFn } from '../helper/index.js';
 
 const { ObjectId } = Schema;
 
@@ -20,6 +21,7 @@ const stockDetailSchema = new mongoose.Schema({
   customer_vehicle_id: { type: ObjectId, default: null, required: false },
   device_id: { type: ObjectId, default: null, required: false },
   job_id: { type: ObjectId, default: null, required: false },
+  qrCode: { type: String, trim: true, default: '', required: false },
   status: {
     type: Number,
     trim: true,
@@ -36,6 +38,12 @@ const stockDetailSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: null, select: false },
   deleted_at: { type: Date, default: null, select: false },
+});
+
+stockDetailSchema.pre('save', async function () {
+  const qrCode = `${Date.now() + Math.floor(helperFn.randomNum(100, 5000))}.png`;
+  helperFn.generateQR(this._id.toString(), qrCode, 'stockDetail');
+  this.set({ qrCode });
 });
 
 // stockDetailSchema.index(

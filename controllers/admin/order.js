@@ -87,8 +87,10 @@ const update = async (req, res) => {
   const { id, order_status, shipping_status, shipping_instruction, notes } = req.body;
   try {
     let order = await Order.findById(id);
+    const orderStatus = Number(order_status);
+    const shippingStatus = Number(shipping_status);
 
-    if (Number(order_status) === type.ORDER_STATUS_TYPE.COMPLETED) {
+    if (orderStatus === type.ORDER_STATUS_TYPE.COMPLETED) {
       throw new Error(languageHelper.invalidCredentials);
     } else if (Number(shipping_status) === type.SHIPPING_STATUS_TYPE.DELIVERY_CONFIRMED_BY_OFFICE) {
       throw new Error(languageHelper.invalidCredentials);
@@ -104,8 +106,12 @@ const update = async (req, res) => {
     let stockDevices;
     let quantity = 0;
 
-    if (order_status) {
-      if (Number(order_status) === type.ORDER_STATUS_TYPE.ACCEPTED) {
+    if (orderStatus || shippingStatus) {
+      if (
+        orderStatus === type.ORDER_STATUS_TYPE.ACCEPTED ||
+        shippingStatus === type.SHIPPING_STATUS_TYPE.DISPATCHED ||
+        shippingStatus === type.SHIPPING_STATUS_TYPE.ARRIVED_AT_DESTINATION
+      ) {
         order.order_details.forEach((device) => {
           devices.push(device.device_id);
           quantity += device.quantity;

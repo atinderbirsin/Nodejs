@@ -69,8 +69,9 @@ router.post('/order/return/list', auth, multer.userUpload.none(), returnOrder.li
 router.post('/order/return/get', auth, multer.userUpload.none(), returnOrder.get);
 
 router.post('/job/create', auth, multer.jobUpload.array('images'), job.create);
-// router.post('/order/return/list', auth, multer.userUpload.none(), returnOrder.list);
-// router.post('/order/return/get', auth, multer.userUpload.none(), returnOrder.get);
+router.post('/job/list', auth, multer.jobUpload.none(), job.list);
+router.post('/job/get', auth, multer.jobUpload.none(), job.get);
+router.post('/job/update', auth, multer.jobUpload.none(), job.update);
 
 router.post('/content/privacyPolicy', multer.deviceUpload.none(), setting.privacyPolicy);
 router.post('/content/termsCondition', multer.deviceUpload.none(), setting.termsCondition);

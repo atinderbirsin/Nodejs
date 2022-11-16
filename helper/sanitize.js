@@ -28,8 +28,8 @@ const admin = (user, skipToken = true) => {
   return user;
 };
 
-const User = (user, skipToken = true) => {
-  const createdBy = user.created_by ? user.created_by.toString() : '';
+const User = (user, skipToken = true, skipVehicles = false) => {
+  const createdBy = user?.created_by ? user.created_by.toString() : '';
   if (user) {
     user.password = undefined;
     user.forgot_otp = undefined;
@@ -39,6 +39,7 @@ const User = (user, skipToken = true) => {
     user.deleted_at = undefined;
     user.__v = undefined;
     // user.vehicles = undefined;
+    user.status_text = type.STATUS_TYPE_TEXT[user.status];
     if (user.jwt_id === createdBy) {
       user.canEdit = true;
     } else {
@@ -59,6 +60,9 @@ const User = (user, skipToken = true) => {
     user.user_type_text = type.USER_TYPE_TEXT[user.user_type];
     if (skipToken) {
       user.token = undefined;
+    }
+    if (skipVehicles) {
+      user.vehicles = undefined;
     }
   }
 
@@ -99,6 +103,7 @@ const Vehicle = (vehicle) => {
     if (vehicle.image && vehicle.image !== '') {
       vehicle.image = `${process.env.BASE_PATH}customerVehicle/${vehicle.image}`;
     }
+    vehicle.status_text = type.STATUS_TYPE_TEXT[vehicle.status];
   }
   return vehicle;
 };
@@ -272,6 +277,19 @@ const stockItem = (device) => {
     device.order_id = undefined;
     device.technician_id = undefined;
     device.customer_id = undefined;
+    device.customer_vehicle_id = undefined;
+    device.user_id = undefined;
+    device.device_id = undefined;
+    if (device.technician) {
+      device.technician = User(device.technician) || undefined;
+    }
+    if (device.customer) {
+      device.customer = User(device.customer) || undefined;
+    }
+    if (device.vehicle) {
+      device.customer_vehicle = Vehicle(device.vehicle) || undefined;
+    }
+    device.vehicle = undefined;
     // device.serial_number = undefined;
     device.customer_vehicle_id = undefined;
     device.job_id = undefined;
@@ -280,7 +298,10 @@ const stockItem = (device) => {
     device.created_at = undefined;
     device.updated_at = undefined;
     device.deleted_at = undefined;
-    device.logs = device.logs.map((log) => deviceLog(log));
+    if (device.logs) {
+      device.logs = device.logs.map((log) => deviceLog(log));
+    }
+    device.qrCode = `${process.env.BASE_PATH}stockDetail/${device.qrCode}`;
     device.device = Device(device.device);
     device.user = User(device.user);
   }
@@ -300,12 +321,25 @@ const JobLogs = (log) => {
 
 const Job = (job) => {
   if (job) {
-    job.type = type.JOB_TYPE_TEXT[job.type];
-    job.status = type.JOB_STATUS_TYPE_TEXT[job.status];
+    job.type_text = type.JOB_TYPE_TEXT[job.type];
+    job.status_text = type.JOB_STATUS_TYPE_TEXT[job.status];
     job.quantity = undefined;
-    job.qrCode = `${process.env.BASE_PATH}job/${job.qrCode}`;
+    job.office_id = undefined;
+    job.technician_id = undefined;
+    job.customer_id = undefined;
+    job.customer_vehicle_id = undefined;
     job.images = job.images.map((i) => `${process.env.BASE_PATH}job/${i.img}`);
     job.logs = job.logs.map((log) => JobLogs(log));
+    if (job.technician) {
+      job.technician = User(job.technician);
+    }
+    if (job.customer) {
+      job.customer = User(job.customer, true, true);
+    }
+    if (job.vehicle) {
+      job.customer_vehicle = Vehicle(job.vehicle);
+    }
+    job.vehicle = undefined;
     job.created_at = undefined;
     job.updated_at = undefined;
     job.deleted_at = undefined;

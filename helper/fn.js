@@ -44,11 +44,11 @@ const removeImage = (file, path) => {
   }
 };
 
-const generateQR = async function (str, name) {
+const generateQR = async function (str, name, folderName) {
   return new Promise((res, rej) => {
     name = name.split(' ').join('');
     const string = JSON.stringify(str);
-    QRCode.toFile(`public/qrcode/${name}`, string, (err) => {
+    QRCode.toFile(`public/${folderName}/${name}`, string, (err) => {
       if (err) throw new Error(err.message);
       res(true);
     });

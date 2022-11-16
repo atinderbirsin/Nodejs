@@ -61,6 +61,7 @@ const create = async (req, res) => {
     };
 
     const availableDevicesQuantity = await StockDetail.find(availableDevicesQuantityPayload);
+    const availableDeviceId = availableDevicesQuantity[0]._id;
 
     if (!technician || !customer || !customerVehicle || !device) {
       throw new Error(languageHelper.invalidCredentials);
@@ -88,7 +89,7 @@ const create = async (req, res) => {
       office_id: req.jwt_id,
       sr_no: serial_number,
       technician_id: technician_id,
-      device_id: device_id,
+      device_id: availableDevicesQuantity[0]._id,
       customer_id: customer_id,
       customer_vehicle_id: customer_vehicle_id,
       deadline_date: new Date(deadline_date),
@@ -103,7 +104,18 @@ const create = async (req, res) => {
       },
     };
 
+    console.log(req.files, req.file, images);
+
     const job = await Job.create(payload);
+
+    const stockPayload = {
+      technician_id,
+      customer_id,
+      customer_vehicle_id,
+      job_id: job._id,
+    };
+
+    await StockDetail.findByIdAndUpdate(availableDeviceId, stockPayload, { new: true, runValidators: true });
 
     res.json(commonModel.success(sanitize.Job(job)));
   } catch (err) {
@@ -113,8 +125,6 @@ const create = async (req, res) => {
 
 const list = async (req, res) => {
   try {
-    req.body.user_type = type.USER_TYPE.CUSTOMER;
-    req.body.deleted_at = null;
     let { page, limit, sort, order } = req.body;
     limit = +limit || 10;
     page = +page || 1;
@@ -122,17 +132,49 @@ const list = async (req, res) => {
     sort = sort ? { [sort]: order } : { created_at: order };
     const search = req.body.search ? { $text: { $search: req.body.search } } : {};
 
-    let users = await User.aggregate([
+    let jobs = await Job.aggregate([
       {
         $match: search,
       },
       {
         $match: {
-          user_type: {
-            $eq: type.USER_TYPE.CUSTOMER,
-          },
-          deleted_at: {
-            $eq: null,
+          office_id: { $eq: commonModel.toObjectId(req.jwt_id) },
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'technician_id',
+          foreignField: '_id',
+          as: 'technician',
+        },
+      },
+      { $unwind: '$technician' },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'customer_id',
+          foreignField: '_id',
+          as: 'customer',
+        },
+      },
+      { $unwind: '$customer' },
+      {
+        // find a vehicle, that matches
+        // to a customer
+        $addFields: {
+          vehicle: {
+            $arrayElemAt: [
+              {
+                $filter: {
+                  input: '$customer.vehicles',
+                  cond: {
+                    $eq: ['$$this._id', '$customer_vehicle_id'],
+                  },
+                },
+              },
+              0,
+            ],
           },
         },
       },
@@ -147,13 +189,10 @@ const list = async (req, res) => {
       },
     ]);
 
-    users = users.map((user) => {
-      user.jwt_id = req.jwt_id;
-      return sanitize.User(user, true);
-    });
-    const total = await User.count(req.body);
+    jobs = jobs.map((job) => sanitize.Job(job));
 
-    res.json(commonModel.listSuccess(users, total, limit));
+    const total = jobs.length;
+    res.json(commonModel.listSuccess(jobs, total, limit));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
@@ -163,132 +202,88 @@ const get = async (req, res) => {
   const { id } = req.body;
   try {
     if (!id) {
-      throw new Error(languageHelper.userIdRequired);
+      throw new Error(languageHelper.jobIdRequired);
     }
-    const filter = {
-      _id: id,
-      deleted_at: null,
-      user_type: type.USER_TYPE.CUSTOMER,
-    };
 
-    const user = await User.findOne(filter);
+    let job = await Job.aggregate([
+      {
+        $match: {
+          _id: { $eq: commonModel.toObjectId(id) },
+          office_id: { $eq: commonModel.toObjectId(req.jwt_id) },
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'technician_id',
+          foreignField: '_id',
+          as: 'technician',
+        },
+      },
+      { $unwind: '$technician' },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'customer_id',
+          foreignField: '_id',
+          as: 'customer',
+        },
+      },
+      { $unwind: '$customer' },
+      {
+        // find a vehicle, that matches
+        // to a customer
+        $addFields: {
+          vehicle: {
+            $arrayElemAt: [
+              {
+                $filter: {
+                  input: '$customer.vehicles',
+                  cond: {
+                    $eq: ['$$this._id', '$customer_vehicle_id'],
+                  },
+                },
+              },
+              0,
+            ],
+          },
+        },
+      },
+    ]);
 
-    if (!user) {
+    if (job.length > 0) {
+      job = job[0];
+    } else {
       throw new Error(languageHelper.invalidCredentials);
     }
 
-    user.jwt_id = req.jwt_id;
-
-    res.json(commonModel.success(sanitize.User(user, true)));
+    res.json(commonModel.success(sanitize.Job(job)));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
 };
 
 const update = async (req, res) => {
-  const { id } = req.body;
-  try {
-    const filter = {
-      _id: id,
-      deleted_at: null,
-      user_type: type.USER_TYPE.CUSTOMER,
-    };
-
-    let user = await User.findOne(filter);
-
-    if (!id) {
-      throw new Error(languageHelper.userIdRequired);
-    } else if (req.fileValidationError) {
-      throw new Error(languageHelper.imageValidationError);
-    } else if (!user) {
-      throw new Error(languageHelper.invalidCredentials);
-    } else if (user.created_by?.toString() !== req.jwt_id) {
-      throw new Error(languageHelper.youDontHaveUpdatePermission);
-    }
-
-    if (req.file) {
-      req.body.image = req.file.filename;
-      helperFn.removeImage(user.image, `${publicDirectoryPath}/user/`);
-    }
-
-    user = await User.findOneAndUpdate(filter, req.body, {
-      new: true,
-      runValidators: true,
-      context: 'query',
-    });
-
-    res.json(commonModel.success(sanitize.User(user, true)));
-  } catch (err) {
-    res.json(commonModel.failure(helperFn.getError(err.message)));
-  }
-};
-
-const remove = async (req, res) => {
-  const { id } = req.body;
-  try {
-    let user = await User.findById(id);
-
-    if (!id) {
-      throw new Error(languageHelper.userIdRequired);
-    } else if (!user) {
-      throw new Error(languageHelper.invalidCredentials);
-    } else if (user.created_by !== req.jwt_id) {
-      throw new Error(languageHelper.youDontHaveUpdatePermission);
-    }
-
-    user = await User.findByIdAndUpdate(id, { deleted_at: Date.now() });
-
-    res.json(commonModel.success(''));
-  } catch (err) {
-    res.json(commonModel.failure(helperFn.getError(err.message)));
-  }
-};
-
-const service = async (req, res) => {
-  try {
-    const users = await User.aggregate([
-      {
-        $match: {
-          user_type: { $eq: type.USER_TYPE.CUSTOMER },
-          deleted_at: {
-            $eq: null,
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          name: 1,
-        },
-      },
-    ]);
-
-    res.json(commonModel.success(users));
-  } catch (err) {
-    res.json(commonModel.failure(helperFn.getError(err.message)));
-  }
-};
-
-const changeStatus = async (req, res) => {
   const { id, status } = req.body;
   try {
-    let user = await User.findById(id);
-
     if (!id) {
-      throw new Error(languageHelper.userIdRequired);
+      throw new Error(languageHelper.jobIdRequired);
     } else if (!status) {
       throw new Error(languageHelper.statusRequired);
-    } else if (user.created_by?.toString() !== req.jwt_id) {
-      throw new Error(languageHelper.youDontHaveUpdatePermission);
-    }
-
-    user = await User.findByIdAndUpdate(id, { status }, { new: true });
-
-    if (!user) {
+    } else if (status !== types.JOB_STATUS_TYPE.CANCELED) {
       throw new Error(languageHelper.invalidCredentials);
     }
 
-    res.json(commonModel.success(sanitize.User(user, true)));
+    const updateVal = {
+      status,
+    };
+
+    const job = await Job.findByIdAndUpdate(id, updateVal, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.json(commonModel.success(sanitize.Job(job)));
   } catch (err) {
     res.json(commonModel.failure(helperFn.getError(err.message)));
   }
@@ -299,7 +294,4 @@ export default {
   list,
   get,
   update,
-  remove,
-  service,
-  changeStatus,
 };

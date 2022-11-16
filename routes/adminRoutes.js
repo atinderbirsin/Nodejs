@@ -71,12 +71,12 @@ router.post('/order/return/get', auth, multer.deviceUpload.none(), returnOrder.g
 router.post('/order/return/update', auth, multer.deviceUpload.none(), returnOrder.update);
 router.post('/order/return/statuses', auth, multer.deviceUpload.none(), returnOrder.statusType);
 
-router.post('/stock/create', auth, multer.deviceUpload.none(), stock.create);
-router.post('/stock/list', auth, multer.deviceUpload.none(), stock.list);
-router.post('/stock/history', auth, multer.deviceUpload.none(), stock.history);
-router.post('/stock/configure/list', auth, multer.deviceUpload.none(), stockConfigure.list);
-router.post('/stock/configure/get', auth, multer.deviceUpload.none(), stockConfigure.get);
-router.post('/stock/configure/update', auth, multer.deviceUpload.none(), stockConfigure.update);
+router.post('/stock/create', auth, multer.stockDetailUpload.none(), stock.create);
+router.post('/stock/list', auth, multer.stockDetailUpload.none(), stock.list);
+router.post('/stock/history', auth, multer.stockDetailUpload.none(), stock.history);
+router.post('/stock/configure/list', auth, multer.stockDetailUpload.none(), stockConfigure.list);
+router.post('/stock/configure/get', auth, multer.stockDetailUpload.none(), stockConfigure.get);
+router.post('/stock/configure/update', auth, multer.stockDetailUpload.none(), stockConfigure.update);
 
 router.post('/setting', auth, multer.deviceUpload.none(), setting.create);
 router.post('/setting/get', auth, multer.deviceUpload.none(), setting.get);
