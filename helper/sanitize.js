@@ -88,6 +88,9 @@ const Device = (device) => {
     device.updated_at = undefined;
     device.deleted_at = undefined;
     device.__v = undefined;
+    if (device.image && device.image !== '') {
+      device.image = `${process.env.BASE_PATH}device/${device.image}`;
+    }
     device.attributes = device.attributes.map((attribute) => deviceAttribute(attribute));
   }
   return device;

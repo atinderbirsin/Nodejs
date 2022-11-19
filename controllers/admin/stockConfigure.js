@@ -55,7 +55,7 @@ const list = async (req, res) => {
       },
     ]);
 
-    const total = devices.length;
+    const total = await StockDetail.countDocuments();
     devices = devices.map((device) => sanitize.stockItem(device));
     res.json(commonModel.listSuccess(devices, total, limit));
   } catch (err) {

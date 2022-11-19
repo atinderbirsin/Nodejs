@@ -7,6 +7,7 @@ import StockDetail from '../../models/stockDetail.js';
 const list = async (req, res) => {
   try {
     req.body.deleted_at = null;
+    // eslint-disable-next-line prefer-const
     let { page, limit, sort, order, filter } = req.body;
     limit = +limit || 10;
     page = +page || 1;
@@ -38,23 +39,18 @@ const list = async (req, res) => {
           as: 'device',
         },
       },
-      // {
-      //   $lookup: {
-      //     from: 'users',
-      //     let: { vehicle_id: '$_id' },
-      //     pipeline: [{ $match: { $expr: { $in: ['customer_vehicle_id', '$vehicles._id'] } } }],
-      //     as: 'vehicle',
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     from: 'users.vehicles',
-      //     localField: 'customer_vehicle_id',
-      //     foreignField: '_id',
-      //     as: 'vehicle',
-      //   },
-      // },
       { $unwind: '$device' },
+      {
+        $group: {
+          _id: '$device_id',
+          name: { $first: '$device.name' },
+          sku_number: { $first: '$device.sku_number' },
+          image: { $first: '$device.image' },
+          description: { $first: '$device.description' },
+          attributes: { $first: '$device.attributes' },
+          quantity: { $sum: 1 },
+        },
+      },
       {
         $sort: sort,
       },
@@ -66,7 +62,7 @@ const list = async (req, res) => {
       },
     ]);
 
-    devices = devices.map((device) => sanitize.stockDevice(device));
+    devices = devices.map((device) => sanitize.Device(device));
     const total = devices.length;
 
     res.json(commonModel.listSuccess(devices, total, limit));

@@ -224,7 +224,6 @@ const history = async (req, res) => {
       {
         $match: {
           device_id: { $eq: commonModel.toObjectId(device_id) },
-          deleted_at: null,
           user_type: type.USER_TYPE.ADMIN,
         },
       },

@@ -137,7 +137,7 @@ const JOB_TYPE_TEXT = {
 const VENDOR_ID = '636886d7bc988a2dd4902525';
 const VENDOR_NAME = 'Ekasilam Inventory Vendor';
 const ADMIN_CODE = 'ADMIN';
-const ADMIN_ID = '636886d7bc988a2dd4902527';
+const ADMIN_ID = '6377244eb6020332da0a01af';
 const ADMIN_NAME = 'Admin';
 
 export default {
